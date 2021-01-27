@@ -1,0 +1,84 @@
+\newcommand{\COURSE}{Seminar: OPT/NAS 20/21}
+\newcommand{\STUDENT}{Stefan Wezel}
+
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usepackage{algpseudocode,algorithm,algorithmicx}
+
+%Definiere Let-Command für algorithmen
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{\STUDENT}
+\fancyhead[C]{\COURSE}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Page \thepage /\pageref*{LastPage}}
+\title{\textbf{Loss Landscape Visualization}\\\small Report for the Seminar on Optimization and Neural Architecture Search}
+\begin{document}	
+	
+	
+	% ----------------------- TODO ---------------------------
+	% Hier werden die Aufgaben/Lösungen eingetragen:
+
+%\author{Stefan Wezel}	
+\maketitle
+%\tableofcontents
+\section*{}
+
+
+	% TODO remove sample text
+
+\section*{Abstract}
+\textit{Neural networks have emerged as powerful function approximators with large parameter sets. These parameters are optimized according to a loss function. Many assumptions have been made about the shape of this loss landscape. However, only recently qualitative and empricial studies have been conducted.}
+
+\section*{Introduction}
+
+\section*{Related Work}
+
+\section*{Methods}
+\subsection*{Linear Interpolation}
+\subsection*{Filter Normalization}
+
+\section*{Results}
+
+
+\section*{Conclusions}
+
+
+
+	
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

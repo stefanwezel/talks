@@ -1,0 +1,132 @@
+\newcommand{\COURSE}{Seminar: OPT/NAS 20/21}
+\newcommand{\STUDENT}{my name}
+
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usepackage{algpseudocode,algorithm,algorithmicx}
+
+%Definiere Let-Command für algorithmen
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{\STUDENT}
+\fancyhead[C]{\COURSE}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Page \thepage /\pageref*{LastPage}}
+
+\begin{document}	
+	
+	
+	% ----------------------- TODO ---------------------------
+	% Hier werden die Aufgaben/Lösungen eingetragen:
+	
+	\section*{Loss Landscape Visualization}
+	
+	% TODO remove sample text
+	\subsection*{Introduction}
+
+	\ \\ %Trick um eine leere Zeile zu erhalten, gleichzeitig wird in der nächsten Zeile kein neuer Absatz begonnen
+	\begin{tabular}{c|lr}
+		zentrierte Spalte & linksbündig & rechtsbündig\\
+		\hline
+		zweite Zeile & \\
+	\end{tabular}\\
+	\ \\
+	Eine neue Seite wird durch $\backslash$newpage erzwungen.
+	\newpage
+	
+	Das hier ist eine nummerierte Aufzählung
+	\begin{enumerate}
+		\item Erster Punkt
+		\item Zweiter Punkt
+	\end{enumerate}
+	
+	und das hier ist eine Aufzählung ohne Nummerierung
+	\begin{itemize}
+		\item Erster Punkt
+		\item Zweiter Punkt
+	\end{itemize}
+	
+	\subsection*{b) Zeichnen von Automaten}
+	
+	Übergangsrelationen von Automaten können ihr mit dem Tool auf \url{http://madebyevan.com/fsm/} zeichnen. 
+	
+	Alternativ, wenn ihr mehr Kontrolle über die Platzierung der Nodes haben wollt, könnt ihr die Übergangsrelationen auch ohne das Tool direkt in TikZ definieren, siehe das Beispiel: \url{http://texample.net/tikz/examples/state-machine/}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.2]
+			\tikzstyle{every node}+=[inner sep=0pt]
+			\draw [black] (18.5,-19.9) circle (3);
+			\draw (18.5,-19.9) node {$q_0$};
+			\draw [black] (31.3,-19.9) circle (3);
+			\draw (31.3,-19.9) node {$q_1$};
+			\draw [black] (24.7,-29.4) circle (3);
+			\draw (24.7,-29.4) node {$q_2$};
+			\draw [black] (24.7,-29.4) circle (2.4);
+			\draw [black] (11,-19.9) -- (15.5,-19.9);
+			\fill [black] (15.5,-19.9) -- (14.7,-19.4) -- (14.7,-20.4);
+			\draw [black] (21.5,-19.9) -- (28.3,-19.9);
+			\fill [black] (28.3,-19.9) -- (27.5,-19.4) -- (27.5,-20.4);
+			\draw (24.9,-19.4) node [above] {$a.b$};
+			\draw [black] (29.59,-22.36) -- (26.41,-26.94);
+			\fill [black] (26.41,-26.94) -- (27.28,-26.56) -- (26.46,-25.99);
+			\draw (28.6,-26.01) node [right] {$a,b$};
+			\draw [black] (23.06,-26.89) -- (20.14,-22.41);
+			\fill [black] (20.14,-22.41) -- (20.16,-23.36) -- (21,-22.81);
+			\draw (20.98,-25.97) node [left] {$a,b$};
+		\end{tikzpicture}
+	\end{center}
+	
+	\subsection*{c) Pseudocode}
+	
+	\begin{algorithm}
+		\caption{Zähle die Anzahl der Stellen, an der zwei Binärzahlen sich unterscheiden}
+		\begin{algorithmic}[1]
+			\Require{$x$ und $y$ sind Binärzahlen der gleichen Länge}
+			\Statex
+			\Function{Distance}{$x, y$}
+			\Let{$z$}{$x \oplus y$} \Comment{$\oplus$: bitweise exkulsives oder}
+			\Let{$\delta$}{$0$}
+			\For{$i \gets 1 \textrm{ to } n$} \Comment{$n$: Länge von $z$}
+			\If{$z_i \neq 0$} \Comment{$z_i$: $i$tes Bit von $z$}
+			\Let{$\delta$}{$\delta + 1$}
+			\EndIf
+			\EndFor
+			\State \Return{$\delta$}
+			\EndFunction
+		\end{algorithmic}
+	\end{algorithm}
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
