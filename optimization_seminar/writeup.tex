@@ -66,9 +66,12 @@
 \section*{Abstract}
 \textit{Neural networks have emerged as powerful function approximators with large parameter sets. These parameters are optimized according to a loss function. Many assumptions have been made about the shape of the resulting loss landscape. However, only recently qualitative and empricial studies have been conducted. Here, we give an overview for recent advances of this field. We will explore different methods in detail and discuss their results and impact.}
 
+
+
 \section*{Introduction}
-
-
+When creating neural networks for a given task, practicioners or have to take many decisions. From architecture design, over optimizers, and schedules to hyperparameter choice there are many options that will play a key role in the eventual performance of the model. Anecdotal knowledge, experience and luck often lead to the final configuration and there is little empirical knowledge of what is actually effective. Loss landscape visualization can play a large role in guiding the community towards a more empirically foundation and maybe help build the groundwork for theoretical approaches.\\
+Several recent works have shown that a better knowledge about the loss landscape can help build methods grounded in theory \cite{mutschler2020parabolic, chaudhari2019entropy}. Moreover, loss landscape visualization also helped to explain the effectiveness of existing methods such as stochastic gradient descent (SGD) \cite{robbins1951stochastic, xing2018walk} and architectures with residual connections \cite{he2016deep, li2017visualizing}.\\
+As the space of parameters is too large to visualize in any meaningful way, methods of loss landscape visualization have to compromise. They might just consider small, visualizable subspace of a model's parameters. Results, thus, should be considered with caution and any conclusions should be drawn only carefully.
 
 
 
