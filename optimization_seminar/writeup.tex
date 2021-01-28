@@ -9,6 +9,7 @@
 \usepackage{amssymb}
 \usepackage{fancyhdr}
 \usepackage{color}
+%\usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{lastpage}
 \usepackage{listings}
@@ -34,6 +35,8 @@
 %Größe der Ränder setzen
 \geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
 
+
+\bibliographystyle{apalike}	% lengthly
 %Kopf- und Fußzeile
 \pagestyle {fancy}
 \fancyhead[L]{\STUDENT}
@@ -44,6 +47,9 @@
 \fancyfoot[C]{}
 \fancyfoot[R]{Page \thepage /\pageref*{LastPage}}
 \title{\textbf{Loss Landscape Visualization}\\\small Report for the Seminar on Optimization and Neural Architecture Search}
+
+
+
 \begin{document}	
 	
 	
@@ -53,28 +59,32 @@
 %\author{Stefan Wezel}	
 \maketitle
 %\tableofcontents
-\section*{}
 
 
 	% TODO remove sample text
 
 \section*{Abstract}
-\textit{Neural networks have emerged as powerful function approximators with large parameter sets. These parameters are optimized according to a loss function. Many assumptions have been made about the shape of this loss landscape. However, only recently qualitative and empricial studies have been conducted.}
+\textit{Neural networks have emerged as powerful function approximators with large parameter sets. These parameters are optimized according to a loss function. Many assumptions have been made about the shape of the resulting loss landscape. However, only recently qualitative and empricial studies have been conducted. Here, we give an overview for recent advances of this field. We will explore different methods in detail and discuss their results and impact.}
 
 \section*{Introduction}
 
-\section*{Related Work}
+
+
+
+
+\section*{Background}
 
 \section*{Methods}
 \subsection*{Linear Interpolation}
 \subsection*{Filter Normalization}
-
+\cite{xing2018walk}
 \section*{Results}
 
 
 \section*{Conclusions}
 
-
+\bibliographystyle{alpha}
+\bibliography{references}
 
 	
 \end{document}
