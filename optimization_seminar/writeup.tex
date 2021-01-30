@@ -171,7 +171,15 @@ severely limits the applicability of such methods. For reasonable experiments, o
 
 
 \section*{Applying Findings from Loss Landscape Visualization}
+Recent progress in loss landscape visualization, as the works described in the previous section, have brought new insights on the shape of the loss function. These insight have also helped build a better understanding of the impact on loss's shape on generalization. In the following sections, we will focus on works that apply these insight to build optimizers.
+
+
 \subsection*{Parabolic Approximation Line Search}
+We have seen that, depending on architecture, the loss surface can be roughly convex. \cite{mutschler2020parabolic} provide further empirical evidence to support this assumption. To make use of this characteristic, they propose an optimizer that approximates the loss in negative gradient with a parabola. A step is then taken to the minimum of the parabola, which can be found analytically.
+
+
+
+
 \subsection*{Entropy-SGD}
 
 
