@@ -86,7 +86,7 @@ We refer to the surface, such an algorithm is moving on, as loss landscape. The 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.5\linewidth]{figures/two_weight_loss.png}
+	\includegraphics[width=.6\linewidth]{figures/two_weight_loss.pdf}
 	\caption{Loss landscape for a neural network with $\theta = \lbrace w_1, w_2 \rbrace$. Values for $w_1, w_2$ are plotted against a loss $\mathcal{L}(\theta)$. As $|\theta| = 2$, visualization is straight forward.}
 	\label{fig:twoweights}
 \end{figure}
@@ -207,7 +207,7 @@ To further justify their method, \cite{mutschler2020parabolic} also provide exte
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=.6\linewidth]{figures/entropy_1.png}
+	\includegraphics[width=.6\linewidth]{figures/entropy_1.pdf}
 	\caption{Intuition for Entropy-SGD. The entropy loss has a global minimum where generalization is assumed to be high. TODO change x to theta}
 	\label{fig:entropy}
 \end{figure}
@@ -236,12 +236,9 @@ Empirically, \citet{chaudhari2019entropy} compare Entropy-SGD to SGD and ADAM. I
 However, it is important to note that the conducted experiments only encompass a rather small set of tasks. In order to empirically proof that Entropy-SGD is able to outperform state-of-the-art opimizers further investigation is needed, and a wider set of tasks has to be considered. Nonetheless, this work bring yet more insights into the nature of the loss landscape and more specifically generalization.
 
 
-\section*{Discussion or Conclusion}
-%The methods presented are interesting examples investigating  that are often assumed to hold.
 
-
-\section{Conclusions}
-\label{sec:conc}
+\section*{Conclusions}
+%\label{sec:conc}
 Modern deep neural networks are powerful and are increasingly applied for challenging tasks. While this field of research is quickly evolving, the development is often ahead of itself. This is exemplified by the seemingly unreasonable performance of algorithms like SGD. Only by rigorous investigating methods, finding empirical and theoretical evidence, the field can progress sustainably.\\
 The works presented here are displays of this process. While not necessarily providing groundbreaking insights to the loss landscape's shape or yielding a new do-it-all optimizer, they are important steps towards building a solid foundation for optimziation deep learning.
 
