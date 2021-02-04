@@ -65,22 +65,21 @@
 
 
 \section*{Abstract}
-\textit{Neural networks have emerged as powerful function approximators with large parameter sets. These parameters are optimized according to a loss function. Many assumptions have been made about the shape of the resulting loss landscape. However, only recently qualitative and empricial studies have been conducted. Here, we give an overview for recent advances of this field. We will explore different methods in detail and discuss their results and impact.}
+\textit{Neural networks have emerged as powerful function approximators with large parameter sets. These parameters are optimized according to a loss function. Many assumptions and claims have been made about the shape of the resulting loss landscape. However, only recently qualitative and empirical studies have been conducted. Here, we give an overview of recent advances in this field. We will explore different methods in detail and discuss their results and impact.}
 
 
 
 \section*{Introduction}
-When creating neural networks for a given task, practicioners or have to take many decisions. From architecture design, over optimizers, and schedules to hyperparameter choice there are many options that will play a key role in the eventual performance of the model. Anecdotal knowledge, experience and luck often lead to the final configuration and there is little empirical knowledge of what is actually effective. Loss landscape visualization can play a large role in guiding the community towards a more empirically foundation and maybe help build the groundwork for theoretical approaches.\\
-Several recent works have shown that a better knowledge about the loss landscape can help build methods grounded in theory \cite{mutschler2020parabolic, chaudhari2019entropy}. Moreover, loss landscape visualization also helped to explain the effectiveness of existing methods such as stochastic gradient descent (SGD) \cite{robbins1951stochastic, xing2018walk} and architectures with residual connections \cite{he2016deep, li2017visualizing}.\\
-As the space of parameters is too large to visualize in any meaningful way, methods of loss landscape visualization have to compromise. They might just consider small, visualizable subspace of a model's parameters. Results, thus, should be considered with caution and any conclusions should be drawn only carefully.\\
-The following section will give .. to deep neural network architectures, and explain what a loss landscape is. Then, we will explore different methods of visualizing loss landscapes and see how insights from those methods can be applied. Finally, we discuss the impact of knowing the loss landscape better, see some limitations, and give an outlook on the future of the field.
-
+When creating neural networks for a given task, practitioners have to make many decisions. From architecture design, over optimizers, and schedules to hyperparameter choice, many options will play a key role in the eventual performance of the model. Anecdotal knowledge, experience and often luck lead will to the final configuration and there is little empirical knowledge of what is actually effective. Loss landscape visualization can play a large role in guiding the community towards a more empirical foundation and maybe help build the groundwork for theoretical approaches.\\
+Several recent works have shown that better knowledge about the loss landscape can help build methods grounded in theory \cite{mutschler2020parabolic, chaudhari2019entropy}. Moreover, loss landscape visualization also helped to explain the effectiveness of existing methods such as stochastic gradient descent (SGD) \cite{robbins1951stochastic, xing2018walk} and architectures with residual connections \cite{he2016deep, li2017visualizing}.\\
+As the space of parameters is too large to visualize in any meaningful way, methods of loss landscape visualization have to compromise. They might just consider a small, visualizable subspace of a model's parameters. Results, thus, should be considered with caution and any conclusions should be drawn carefully.\\
+The following section will give an introduction to deep neural network architectures, and an intuition of what a loss landscape is. Later, we will explore different methods of visualizing loss landscapes and see how insights from those methods can be applied. Finally, we discuss the impact of knowing the loss landscape better, see some limitations, and give an outlook on the future of the field.
 
 
 \section*{Background}
-In this section we will provide some theoretical background and set the denotations for the following sections.\\
+In this section, we will provide some theoretical background and set the denotations for the following sections.\\
 A neural network $g$ is a function with a set of adjustable parameters $\theta_i$. We will denote it by $g_{\theta_i}$. Deep neural networks (DNN) can be viewed as the composition $f_{\theta} = \sigma (g_{\theta_0}) \circ ... \circ \sigma(g_{\theta_m})$ of such functions where $\sigma$ denotes some non-linear function. The parameter set $\theta$ may be arbitrary. For a given task it can be optimized by finding a minimum of a loss function $\mathcal{L}$. We refer to the resulting set as $\theta^*$. Du to the non-linear functions involved and the often large magnitude of $\theta$ a solution usually cannot be found analytically.\\
-In recent years, however, iterative, algorithmic approaches have proven to reliably find sufficient minima. These approaches built on the notion of a gradient descient which dates back to \citet{cauchy1847methode}. A gradient according to the current loss $L$ and parameters $\theta_t$ is computed and a step, scaled by constant $\eta$ is taken in its negative direction. The result of a step taken is an adjusted set of parameters $\theta_{t+1}$. Note that for the gradient to be tractable, all operations involved have to be differentiable. Popular variants of the basic gradient descent algorithms include Stochastic Gradient Descent (SGD) \cite{robbins1951stochastic}, ADAM \cite{kingma2014adam}, and RMSProp \cite{graves2013generating}.\\
+In recent years, however, iterative, algorithmic approaches have proven to reliably find sufficient minima. These approaches build on the notion of a gradient descent which dates back to \citet{cauchy1847methode}. A gradient according to the current loss $L$ and parameters $\theta_t$ is computed and a step, scaled by constant $\eta$ is taken in its negative direction. The result of a step taken is an adjusted set of parameters $\theta_{t+1}$. Note that for the gradient to be tractable, all operations involved have to be differentiable. Popular variants of the basic gradient descent algorithms include Stochastic Gradient Descent (SGD) \cite{robbins1951stochastic}, ADAM \cite{kingma2014adam}, and RMSProp \cite{graves2013generating}.\\
 We refer to the surface, such an algorithm is moving on, as loss landscape. The dimension $n$ of the surface is determined by the magnitude of $\theta$. For $n=2$ this surface is easy to visualize as shown in figure~\ref{fig:twoweights}.
 
 
@@ -93,8 +92,7 @@ We refer to the surface, such an algorithm is moving on, as loss landscape. The 
 
 
 It is often assumed that the path such an algorithm has to take in order to find a minimum encounters several obstacles and is highly non-convex. Recent insights from loss landscape visualization have, however, shown that this is highly dependent on the architecture. \citet{li2017visualizing} have shown that loss surfaces of architectures with residual connections can have roughly convex subspaces.\\
-Another common assumption is that flat minima generalize better. The intuition behind this is that there might be a shift between train and test distribution. Thus, for a flatter minimum, the probability of also covering the test distribution would be higher. However this claim was lacking empirical or theoretical studies. Recently, loss landscape visualization has helped providing compelling evidence to support such claims.
-
+Another common assumption is that flat minima generalize better. The intuition behind this is that there might be a shift between train and test distribution. Thus, for a flatter minimum, the probability of also covering the test distribution would be higher. However, this claim was long lacking empirical or theoretical support. Recently, loss landscape visualization has helped to provide compelling evidence for such claims.
 
 
 \section*{Inspecting the Loss Landscape}
@@ -104,7 +102,7 @@ With the context set and some background, we can now have a look at approaches t
 
 \subsection*{Linear Interpolation}
 %\label{subs:linear}
-\citet{goodfellow2014qualitatively} propose to use a linear interpolation between two parameter sets $\theta_0$ and $\theta_1$ as visualizeable subspace. They plot the function shown in equation~\ref{eq:linear} where $\mathcal{L}$ is the loss function considering all training examples, and $\alpha$ serves as weighting parameter. The scalar $\alpha$ can for example be in a range of $0$ to $1$, thus ranging from full weight on model $\theta_0$ to interpolating towards full weigh on model $\theta_1$.
+\citet{goodfellow2014qualitatively} propose to use a linear interpolation between two parameter sets $\theta_0$ and $\theta_1$ as visualizable subspace. They plot the function shown in equation~\ref{eq:linear} where $\mathcal{L}$ is the loss function considering all training examples, and $\alpha$ serves as a weighting parameter. The scalar $\alpha$ can for example be in a range of $0$ to $1$, thus ranging from full weight on model $\theta_0$ to interpolating towards full weight on model $\theta_1$.
 
 \begin{align}
 \label{eq:linear}
@@ -121,7 +119,7 @@ The meaningfulness of such visualizations depends of course heavily on the choic
 	\label{fig:untrained_trained}
 \end{figure}
 The subspace visualized in this figure smoothly transitions between the two models and appears roughly convex.\\
-\citet{li2017visualizing} use this technique to explore the effect of batch size in training on the shape of minima. A result is shown in figure~\ref{fig:smallbatch_largebatch}. When $\alpha =0$, meaning full weight is on the model trained with a small batch size the minimum is flat and wide. As $\alpha$ increases, the loss gets higher before it sharply drops into another minima, where full weight is on the model trained with a large batch size. This minimum is much sharper, indicating a relationship between batch size and flatness of an optimum. If the assumption that flat minima generalize better holds, this would render smaller batch sizes more favorable.
+\citet{li2017visualizing} use this technique to explore the effect of batch size in training on the shape of minima. A result is shown in figure~\ref{fig:smallbatch_largebatch}. When $\alpha =0$, meaning full weight is on the model trained with a small batch size the minimum is flat and wide. As $\alpha$ increases, the loss gets higher before it sharply drops into another minimum, where full weight is on the model trained with large batch size. This minimum is much sharper, indicating a relationship between batch size and the flatness of an optimum. If the assumption that flat minima generalize better holds, this would render smaller batch sizes more favorable.
 
 \begin{figure}[H]
 	\centering
@@ -130,13 +128,13 @@ The subspace visualized in this figure smoothly transitions between the two mode
 	\label{fig:smallbatch_largebatch}
 \end{figure}
 
-As discussed by \citet{li2017visualizing}, linear interpolation suffers from several shortcomings  and limitations. For example, it is arguable whether it is actually possible to capture non-convexities with this method. They thus propose to use filter normalization when visualizing loss landscapes.
+As discussed by \citet{li2017visualizing}, linear interpolation suffers from several shortcomings and limitations. For example, it is arguable whether it is possible to capture non-convexities with this method. They thus propose to use filter normalization when visualizing loss landscapes.
 
 
 
 %\label{subs:filter}
 \subsection*{Filter Normalization}
-Addressing the issues of \citet{goodfellow2014qualitatively}'s visualizations using plain linear interpolation, \citet{li2017visualizing} propose to scale normalized parameters $\theta$. For their method, rather than interpolating between two models, inspect the neighborhood around a model $\hat{\theta}$ by adding a direction vector $u$  of the same shape to $\hat{\theta}$. This direction vector is then scaled by different values for $\alpha$ and the corresponding loss is evaluated, yielding the equation
+Addressing the issues of \citet{goodfellow2014qualitatively}'s visualizations using plain linear interpolation, \citet{li2017visualizing} propose to scale normalized parameters $\theta$. For their method, rather than interpolating between two models, they inspect the neighborhood around a model $\hat{\theta}$ by adding a direction vector $u$  of the same shape to $\hat{\theta}$. This direction vector is then scaled by different values for $\alpha$ and the corresponding loss is evaluated, yielding the equation
 \begin{align*}
 	f(\alpha) = \mathcal{L}(\hat{\theta} + \alpha u).
 \end{align*}
@@ -145,7 +143,7 @@ To ensure that the updates along $u$ live on the same scale as the the values of
 	u = \frac{||\hat{\theta}||}{||u||},
 \end{align}
 
-thus normalizing the parameters of the neighborhood models. They propose the term filter normalization as they conduct most of their experiments on convolutional neural networks, where the most of $\hat{\theta}$ is use to parameterize filters.\\
+thus normalizing the parameters of the neighborhood models. They propose the term filter normalization as they conduct the majority of their experiments on convolutional neural networks, where the most of $\hat{\theta}$ is used to parameterize filters.\\
 
 \begin{figure}[H]
 	\centering
@@ -166,9 +164,8 @@ This results in more expressive plots, revealing more information about the $\ha
 	\caption{Loss landscape neighborhood around a model without residual connections (left) and a model with residual connections.}
 	\label{fig:2dloss}
 \end{figure}
-The loss landscape around a minimum found with a model without any residual connections has several local minima. Intuitively put, an algorithm such as SGD might have a hard time traversing such rugged terrain. On the other hand, introducing residual connection results in a much smoother loss landscape around the minimum. It even appears roughly convex, in the visualized subspace.\\
-While the methods proposed by \cite{li2017visualizing} produce more nuanced plots than simple linear interpolation, it is still important to mention that only a small subspace of the high dimensional parameter space is depicted. Thus, any conclusion has to be drawn with caution. It is also worth mentioning that their proposed method comes with high computational costs, as they consider the whole dataset to evaluate the empirical loss $\mathcal{L}$ at any considered point around $\hat{\theta}$. This 
-severely limits the applicability of such methods. For reasonable experiments, only as small patch of neighborhood can be considered. Also the variety of currently existing architectures expands beyond just using residual connections or not. Moreover, this makes it also only usable with constraints for exploring the effect of different values for hyperparameters on the loss landscape.
+The loss landscape around a minimum found with an architecture without any residual connections has several local minima. Intuitively put, an algorithm such as SGD might have a hard time traversing such rugged terrain. On the other hand, introducing residual connections results in a much smoother loss landscape around the minimum. It even appears roughly convex, in the visualized subspace.\\
+While the methods proposed by \cite{li2017visualizing} produce more nuanced plots than simple linear interpolation, it is still important to mention that only a small subspace of the high dimensional parameter space is depicted. Thus, any conclusion has to be drawn with caution. It is also worth mentioning that their proposed method comes with high computational costs, as they consider the whole dataset to evaluate the empirical loss $\mathcal{L}$ at any considered point around $\hat{\theta}$. This severely limits the applicability of such methods. For reasonable experiments, only a small patch of the models neighborhood can be considered. Also, the variety of currently existing architectures expands beyond just using residual connections or not. Moreover, this makes it also only usable with constraints for exploring the effect of different values for hyperparameters on the loss landscape.
 
 
 
@@ -179,11 +176,11 @@ severely limits the applicability of such methods. For reasonable experiments, o
 
 
 \section*{Applying Findings from Loss Landscape Visualization}
-Recent progress in loss landscape visualization, as the works described in the previous section, have brought new insights on the shape of the loss function. These insight have also helped build a better understanding of the impact on loss's shape on generalization. In the following sections, we will focus on works that apply these insight to build optimizers.
+Recent progress in loss landscape visualization, as the works described in the previous section, have brought new insights into the shape of the loss function. These insights have also helped build a better understanding of the impact on the losses shape on generalization. In the following sections, we will focus on works that apply these findings to build optimizers.
 
 
 \subsection*{Parabolic Approximation Line Search}
-We have seen that, depending on architecture, the loss surface can be roughly convex. \cite{mutschler2020parabolic} provide further empirical evidence to support this assumption. To make use of this characteristic, they propose an optimizer that approximates the loss in negative gradient with a parabola. A step is then taken to the minimum of the parabola, which can be found analytically. They call their approach Parabolic Approximation Line Search (PAL).
+We have seen that, depending on the architecture, the loss surface can be roughly convex. \cite{mutschler2020parabolic} provide further empirical evidence to support this assumption. To make use of this characteristic, they propose an optimizer that approximates the loss in negative gradient with a parabola. A step is then taken to the minimum of the parabola, which can be found analytically. They call their approach Parabolic Approximation Line Search (PAL).
 
 \begin{figure}[H]
 	\centering
@@ -191,32 +188,32 @@ We have seen that, depending on architecture, the loss surface can be roughly co
 	\caption{Intuition for PAL. Three measurements are taken and a parabola is approximated according to them. The update step is then taken to the minimum of the parabola.}
 	\label{fig:pal}
 \end{figure}
-To approximate a parabola, PAL takes three measurements. The loss $L(0)$ at the current position, the derivative in gradient direction $L'(0) = - ||g_t||$, and finally the a loss at another position $L(\mu)$, where the measuring distance $\mu$ is a positive scalar. These measurements are now used to parameterize parabola $\hat{L}(s) = as^2 + bs + c$. The curvature is determined by $a = \frac{L(\mu)-L(0) - L'(0)\mu}{\mu^2}$. The position of the parabola is given by $b=L'(0)$ and $c=L(0)$.\\
+To approximate a parabola, PAL takes three measurements. The loss $L(0)$ at the current position, the derivative in gradient direction $L'(0) = - ||g_t||$, and finally the a loss at another position $L(\mu)$, where the measuring distance $\mu$ is a positive scalar. These measurements are then used to parameterize parabola $\hat{L}(s) = as^2 + bs + c$. The curvature is determined by $a = \frac{L(\mu)-L(0) - L'(0)\mu}{\mu^2}$. The position of the parabola is given by $b=L'(0)$ and $c=L(0)$.\\
 Given this approximated parabola, PAL performs an update step $s_{update}$ to its minimum by
 \begin{align}
 	s_{update} = \frac{\hat{L}'(0)}{\hat{L}''(0)} = -\frac{b}{2a} = \frac{-\hat{L}'(0)}{2\frac{L(\mu)-L(0) - L'(0)\mu}{\mu^2}}.
 \end{align}
 For PAL to be able to perform such an update step, $L(0)$ and $L(\mu)$ have to be determined. For the very first step, this cannot be achieved by PAL itself. To alleviate this, \cite{mutschler2020parabolic} propose to perform a cold start using another algorithm to find  $L(\mu)$. It is also important to note that the measurements have to be taken on the same batch and all random values involved have to be reused.\\
-\cite{mutschler2020parabolic} compare the performance of PAL to other optimizers. They consider commonly used approaches like SGD or ADAM as well as to other line search methods such as Stochastic Line Search (SLS) proposed by \cite{paquette2018stochastic}. Their results show that PAL's performance is consistent across multiple architectures and tasks. This becomes especially evident when compared to SLS, which while outperforming PAL on some tasks, is much less stable. PAL generally converges to good minima without relying on hand-crafted step size schedules, as for example SGD does.\\
+\citet{mutschler2020parabolic} compare the performance of PAL to other optimizers. They consider commonly used approaches like SGD or ADAM as well as to other line search methods such as Stochastic Line Search (SLS) proposed by \citet{paquette2018stochastic}. Their results show that PAL's performance is consistent across multiple architectures and tasks. This becomes especially evident when compared to SLS, which while outperforming PAL on some tasks, is much less stable. PAL generally converges to good minima without relying on hand-crafted step size schedules, as for example, SGD does.\\
 To further justify their method, \cite{mutschler2020parabolic} also provide extensive evidence towards the loss landscape's local convexity. Despite the success of the proposed PAL's it is still worth mentioning that on a number of tasks, SGD with a learning rate schedule outperforms other optimizers including line search approaches such as PAL.
 
 
 
 \subsection*{Entropy-SGD}
-\cite{chaudhari2019entropy} build on the notion that flat minima yield better generalization. They actively bias their optimizer to find wide valleys. Extending the work of \cite{baldassi2016unreasonable}, rather than considering a landscape determined only by loss, they consider the volume of similar parameter configurations around the current model and thus form what they call entropy landscape.
+\citet{chaudhari2019entropy} build on the notion that flat minima yield better generalization. They actively bias their optimizer to find wide valleys. Extending the work of \citet{baldassi2016unreasonable}, rather than considering a landscape determined only by loss, they consider the volume of similar parameter configurations around the current model and thus form what they refer to as entropy landscape.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.6\linewidth]{figures/entropy_1.pdf}
-	\caption{Intuition for Entropy-SGD. The entropy loss has a global minimum where generalization is assumed to be high. TODO change x to theta}
+	\caption{Intuition for Entropy-SGD. The entropy loss has a global minimum where generalization is assumed to be high.}
 	\label{fig:entropy}
 \end{figure}
-An intuition for this entropy landscape is given in figure~\ref{fig:entropy}. In this toy example the landscape formed by the used loss (black) has two major minima. One, however, is quite sharp while the other is much flatter. Two more curves (red) denote the local entropy landscape as proposed by \cite{chaudhari2019entropy}. These curves global minima both lie in the original loss landscapes flatter minimum. \cite{chaudhari2019entropy} assume that using the model lying in the global minimum of the local entropy result in better generalization.\\
+An intuition for this entropy landscape is given in figure~\ref{fig:entropy}. In this toy example, the landscape formed by the used loss (black) has two major minima. One, however, is quite sharp while the other is much flatter. Two more curves (red) denote the local entropy landscape as proposed by \citet{chaudhari2019entropy}. These curves global minima both lie in the original loss landscapes flatter minimum. \citet{chaudhari2019entropy} assume that using the model lying in the global minimum of the local entropy results in better generalization.\\
 The introduced local entropy is given by
 \begin{align}
 	F(\theta, \gamma) &= log\; \int_\theta exp(-L(\theta') - \frac{\gamma}{2}||\theta-\theta'||_2^2 d\theta') 
-\end{align},where $\theta$ is a model considered , $\theta'$ is a model in $\theta$'s neighborhood, and $\gamma$ can be viewed as a scope that determines, how far away, models should be considered to compute the volume. The mass of this local entropy concentrates in wide valleys and is thus maximized.\\
-The proposed Entropy algorithm finds finds a minimum of the negative local entropy landscape by performing a nested loop of two SGDs. Intuitively put, the inner SGD estimates the gradient of the local entropy based on the volume of good models while the outer SGD updates parameters $\theta$. Thus Entropy-SGD computes
+\end{align},where $\theta$ is a model considered, $\theta'$ is a model in $\theta$'s neighborhood, and $\gamma$ can be viewed as a scope that determines, how far away, models should be considered to compute the volume. The mass of this local entropy concentrates in wide valleys and is thus maximized.\\
+The proposed Entropy algorithm finds a minimum of the negative local entropy landscape by performing a nested loop of two SGDs. Intuitively put, the inner SGD estimates the gradient of the local entropy based on the volume of good models while the outer SGD updates parameters $\theta$. Thus Entropy-SGD computes
 \begin{align*}
 	\theta*_{Entropy-SGD} = arg\;min_{\theta} - F(\theta, \gamma; X)
 \end{align*}
@@ -225,22 +222,21 @@ which can be found by iteratively computing
 	-\nabla_{\theta}F(\theta, \gamma; X_{batch}) = \gamma (\theta - \mathbb{E}\left[ \theta'; X_{batch} \right]).
 \end{align}
 \citet{chaudhari2019entropy} describe the effect of $\gamma$ as follows: for $\gamma \rightarrow 0$, the entropy landscape approaches the regular loss landscape as determined by the objective. For $\gamma \rightarrow \infty$, the entropy landscape approaches a uniform distribution.\\
-To support their claims and methods, \citet{chaudhari2019entropy} provide further theoretical evidence. They proof that the entropy landscape is smoother than the original loss landscape. Analyzing the eigenspectrum of the Hessian \cite{bishop1992exact}, of models that generalize well,the majority of eigenvalues is close to zero. This indicates low curvature and thus flatness of the minima, further backing the initial assumption that flatter minima generalize better.\\
+To support their claims and methods, \citet{chaudhari2019entropy} provide further theoretical evidence. They prove that the entropy landscape is smoother than the original loss landscape. they analyze the eigenspectrum of the Hessian \cite{bishop1992exact}, of models that generalize well, finding the majority of eigenvalues is close to zero. This indicates low curvature and thus flatness of the minima, further backing the initial assumption that flatter minima generalize better.\\
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.5\linewidth]{figures/eigenspectrum.png}
 	\caption{Histogram of the eigenspectrum of the Hessian matrix of a well generalizing model.}
 	\label{fig:eigenspectrum}
 \end{figure}
-Empirically, \citet{chaudhari2019entropy} compare Entropy-SGD to SGD and ADAM. In their experiments, they demonstrate that on the tasks considered, Entropy-SGD reaches lower test error/perplexity.\\
-However, it is important to note that the conducted experiments only encompass a rather small set of tasks. In order to empirically proof that Entropy-SGD is able to outperform state-of-the-art opimizers further investigation is needed, and a wider set of tasks has to be considered. Nonetheless, this work bring yet more insights into the nature of the loss landscape and more specifically generalization.
+Empirically, \citet{chaudhari2019entropy} compare Entropy-SGD to SGD and ADAM. In their experiments, they demonstrate that on the tasks considered, Entropy-SGD reaches lower test error or perplexity.\\
+However, it is important to note that the conducted experiments only encompass a rather small set of tasks. In order to empirically prove that Entropy-SGD is able to outperform state-of-the-art optimizers further investigation is needed, and a wider set of tasks has to be considered. Nonetheless, this work brings yet more insights into the nature of the loss landscape and more specifically generalization.
 
 
 
 \section*{Conclusions}
-%\label{sec:conc}
-Modern deep neural networks are powerful and are increasingly applied for challenging tasks. While this field of research is quickly evolving, the development is often ahead of itself. This is exemplified by the seemingly unreasonable performance of algorithms like SGD. Only by rigorous investigating methods, finding empirical and theoretical evidence, the field can progress sustainably.\\
-The works presented here are displays of this process. While not necessarily providing groundbreaking insights to the loss landscape's shape or yielding a new do-it-all optimizer, they are important steps towards building a solid foundation for optimziation deep learning.
+Modern deep neural networks are powerful and are increasingly applied for challenging tasks. While this field of research is quickly evolving, the development is often ahead of itself. This is exemplified by the seemingly unreasonable performance of algorithms like SGD. Only by rigorously investigating methods, finding empirical and theoretical evidence, the field can progress sustainably.\\
+The works presented here are displays of this process. While not necessarily providing groundbreaking insights into the loss landscape's shape or yielding a new do-it-all optimizer, they are important steps towards building a solid foundation for optimization in deep learning.
 
 
 
