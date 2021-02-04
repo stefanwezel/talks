@@ -152,7 +152,7 @@ thus normalizing the parameters of the neighborhood models. They propose the ter
 	\label{fig:smallbatch_largebatch_normalized}
 \end{figure}
 Related to figure~\ref{fig:smallbatch_largebatch}, they visualize the filter normalized landscape around a model trained with a small batch size and a model trained with a large batch size. The result is shown in figure~\ref{fig:smallbatch_largebatch_normalized}. While a difference in flatness remains, it is much less clear with both models laying in rather flat minima. The minimum of the small batch size model is, however, still noticeably flatter. The resulting test error is also lower. This further hints towards a better generalization of flat minima and the batch size's role in finding such.\\
-\cite{li2017visualizing} further expand this approach beyond 1-dimensional plots. By choosing not one but multiple direction vectors $u_i$, it can be used for higher dimensions. However, any dimension beyond two would result in the same dilemma for which such methods were developed. Thus, applying it to two dimensions is useful. The function to plot is then
+\citet{li2017visualizing} further expand this approach beyond 1-dimensional plots. By choosing not one but multiple direction vectors $u_i$, it can be used for higher dimensions. However, any dimension beyond two would result in the same dilemma for which such methods were developed. Thus, applying it to two dimensions is useful. The function to plot is then
 \begin{align*}
 		f(\alpha, \beta) = \mathcal{L}(\hat{\theta} + \alpha u_1 + \beta u_2).
 \end{align*}
@@ -165,7 +165,7 @@ This results in more expressive plots, revealing more information about the $\ha
 	\label{fig:2dloss}
 \end{figure}
 The loss landscape around a minimum found with an architecture without any residual connections has several local minima. Intuitively put, an algorithm such as SGD might have a hard time traversing such rugged terrain. On the other hand, introducing residual connections results in a much smoother loss landscape around the minimum. It even appears roughly convex, in the visualized subspace.\\
-While the methods proposed by \cite{li2017visualizing} produce more nuanced plots than simple linear interpolation, it is still important to mention that only a small subspace of the high dimensional parameter space is depicted. Thus, any conclusion has to be drawn with caution. It is also worth mentioning that their proposed method comes with high computational costs, as they consider the whole dataset to evaluate the empirical loss $\mathcal{L}$ at any considered point around $\hat{\theta}$. This severely limits the applicability of such methods. For reasonable experiments, only a small patch of the models neighborhood can be considered. Also, the variety of currently existing architectures expands beyond just using residual connections or not. Moreover, this makes it also only usable with constraints for exploring the effect of different values for hyperparameters on the loss landscape.
+While the methods proposed by \citet{li2017visualizing} produce more nuanced plots than simple linear interpolation, it is still important to mention that only a small subspace of the high dimensional parameter space is depicted. Thus, any conclusion has to be drawn with caution. It is also worth mentioning that their proposed method comes with high computational costs, as they consider the whole dataset to evaluate the empirical loss $\mathcal{L}$ at any considered point around $\hat{\theta}$. This severely limits the applicability of such methods. For reasonable experiments, only a small patch of the models neighborhood can be considered. Also, the variety of currently existing architectures expands beyond just using residual connections or not. Moreover, this makes it also only usable with constraints for exploring the effect of different values for hyperparameters on the loss landscape.
 
 
 
@@ -180,7 +180,7 @@ Recent progress in loss landscape visualization, as the works described in the p
 
 
 \subsection*{Parabolic Approximation Line Search}
-We have seen that, depending on the architecture, the loss surface can be roughly convex. \cite{mutschler2020parabolic} provide further empirical evidence to support this assumption. To make use of this characteristic, they propose an optimizer that approximates the loss in negative gradient with a parabola. A step is then taken to the minimum of the parabola, which can be found analytically. They call their approach Parabolic Approximation Line Search (PAL).
+We have seen that, depending on the architecture, the loss surface can be roughly convex. \citet{mutschler2020parabolic} provide further empirical evidence to support this assumption. To make use of this characteristic, they propose an optimizer that approximates the loss in negative gradient with a parabola. A step is then taken to the minimum of the parabola, which can be found analytically. They call their approach Parabolic Approximation Line Search (PAL).
 
 \begin{figure}[H]
 	\centering
@@ -193,9 +193,9 @@ Given this approximated parabola, PAL performs an update step $s_{update}$ to it
 \begin{align}
 	s_{update} = \frac{\hat{L}'(0)}{\hat{L}''(0)} = -\frac{b}{2a} = \frac{-\hat{L}'(0)}{2\frac{L(\mu)-L(0) - L'(0)\mu}{\mu^2}}.
 \end{align}
-For PAL to be able to perform such an update step, $L(0)$ and $L(\mu)$ have to be determined. For the very first step, this cannot be achieved by PAL itself. To alleviate this, \cite{mutschler2020parabolic} propose to perform a cold start using another algorithm to find  $L(\mu)$. It is also important to note that the measurements have to be taken on the same batch and all random values involved have to be reused.\\
+For PAL to be able to perform such an update step, $L(0)$ and $L(\mu)$ have to be determined. For the very first step, this cannot be achieved by PAL itself. To alleviate this, \citet{mutschler2020parabolic} propose to perform a cold start using another algorithm to find  $L(\mu)$. It is also important to note that the measurements have to be taken on the same batch and all random values involved have to be reused.\\
 \citet{mutschler2020parabolic} compare the performance of PAL to other optimizers. They consider commonly used approaches like SGD or ADAM as well as to other line search methods such as Stochastic Line Search (SLS) proposed by \citet{paquette2018stochastic}. Their results show that PAL's performance is consistent across multiple architectures and tasks. This becomes especially evident when compared to SLS, which while outperforming PAL on some tasks, is much less stable. PAL generally converges to good minima without relying on hand-crafted step size schedules, as for example, SGD does.\\
-To further justify their method, \cite{mutschler2020parabolic} also provide extensive evidence towards the loss landscape's local convexity. Despite the success of the proposed PAL's it is still worth mentioning that on a number of tasks, SGD with a learning rate schedule outperforms other optimizers including line search approaches such as PAL.
+To further justify their method, \citet{mutschler2020parabolic} also provide extensive evidence towards the loss landscape's local convexity. Despite the success of the proposed PAL's it is still worth mentioning that on a number of tasks, SGD with a learning rate schedule outperforms other optimizers including line search approaches such as PAL.
 
 
 
@@ -225,7 +225,7 @@ which can be found by iteratively computing
 To support their claims and methods, \citet{chaudhari2019entropy} provide further theoretical evidence. They prove that the entropy landscape is smoother than the original loss landscape. they analyze the eigenspectrum of the Hessian \cite{bishop1992exact}, of models that generalize well, finding the majority of eigenvalues is close to zero. This indicates low curvature and thus flatness of the minima, further backing the initial assumption that flatter minima generalize better.\\
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=.5\linewidth]{figures/eigenspectrum.png}
+	\includegraphics[width=.5\linewidth]{figures/eigenspectrum.pdf}
 	\caption{Histogram of the eigenspectrum of the Hessian matrix of a well generalizing model.}
 	\label{fig:eigenspectrum}
 \end{figure}
