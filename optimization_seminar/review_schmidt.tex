@@ -1,0 +1,117 @@
+\newcommand{\COURSE}{}
+\newcommand{\STUDENT}{Review of R. Schmidt - Learned Optimizers: A review of recent advances}
+
+\documentclass[a4paper]{scrartcl}
+
+%\newcommand{\setlabel}[1]{\edef\@currentlabel{#1}\label}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usepackage{algpseudocode,algorithm,algorithmicx}
+
+%Definiere Let-Command für algorithmen
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+
+%\bibliographystyle{apalike}	% lengthly
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{\STUDENT}
+\fancyhead[C]{\COURSE}
+%\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Page \thepage /\pageref*{LastPage}}
+
+
+
+\begin{document}	
+\section*{Summary and Contributions}
+The authors give an overview and review of the emerging field of learned optimizers. Learned optimizers would alleviate the need for handcrafted optimization algorithms and costly hyperparameter tuning.\\
+The authors give an introduction to the supervised deep learning setting. They explain the task of optimization in such a setting and give formal context. Popular, \textit{traditional} gradient based methods are described in detail.\\
+The authors then continue by giving a similarily detailed introduction to the notion of learned optimizers. They also support their formal explanation with figures to help the reader build an intuition. \\
+With a formal background established, different approaches to tackle the challenge of learning optimizers are introduced. Special emphasis is layed on a strain of work by Metz et al. which is discussed further. The results of this work are described in detail and are critically evaluated.
+
+
+\section*{Strengths}
+\begin{itemize}
+	\item Fundamentals section gives a detailed formal background while
+	\item Very good written language
+	\item Clear motivation why the topic is relevant
+	\item Good use of visuals
+	\item Emphasis on explanation of the idea of learned optimizers
+	\item Critical discussion of reviewed work, revealing the lack of proper scientific conduct
+	\item Good selection of literature
+	\item Pointing out specific weaknesses and strengths of current learned optimizers
+\end{itemize}
+
+
+
+The authors have a deep understanding of the discussed matter. All concepts are explained in detail and are critically discussed.
+
+\section*{Weaknesses}
+\begin{itemize}
+	\item No-free-lunch-theorem could use more context.
+	\item Some wrong commas.
+\end{itemize}
+
+
+
+
+\section*{Correctness}
+While the reviewer is not particularily familiar with the relevant literature, all references appear to be cited properly. The reviewer could not find any false formulations or equations.
+
+\section*{Clarity}
+The work is easy to follow. The structure is well composed. Language is precise and detailed. Equations and text support one each other. Visuals provide further intuition where needed. Overall, the work is clear and precise.
+
+\section*{Further Comments}
+
+
+\section*{Rating and Confidence}
+\begin{itemize}
+	\item Overall Score: 9.9
+	\item Confidence: 7.5
+\end{itemize}
+
+1. Summary and contributions: Briefly summarize the Report.
+2. Strengths: Describe the strengths of the work.
+3. Weaknesses: Explain the limitations of this work along the same axes as above.
+4. Correctness: Are the given formulas, citations and the text correct?
+5. Clarity: Is the paper well written? Is there a logical thread?
+6. Additional feedback, comments, suggestions for improvement and questions for the authors
+7. Please provide an "overall score" for this submission (between 1 and 10 (10 is best)).
+
+
+
+	
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
