@@ -1,5 +1,5 @@
 \newcommand{\COURSE}{}
-\newcommand{\STUDENT}{Review of R. Schmidt - Learned Optimizers: A review of recent advances}
+	\newcommand{\STUDENT}{Review of S. Inuganti - NAS-3: Scaling Up}
 
 \documentclass[a4paper]{scrartcl}
 
@@ -53,38 +53,49 @@
 
 \begin{document}	
 \section*{Summary and Contributions}
+In their work, the authors explore scaling issues of Neural architecture search (NAS). They give an introduction to the topic of NAS. According to the authors, current scalable NAS methods use proxy-tasks to reduce computational cost. Following this, they introduce two methods, ProxylessNAS and Single-Path NAS, that do not rely on proxy-tasks but are rather designed to use available hardware more efficiently. These two methods are explained formally in great detail and results are shown. Drawbacks, limitations, and future directions of these methods are described briefly.
 
 
 \section*{Strengths}
 The reviewer positively notes that
 \begin{itemize}
-	\item 
+	\item the motivation for the works described was clearly stated,
+	\item the problem setting was introduced comprehensibly,
+	\item denotations are described properly,
+	\item theoretical parts were explained very well,
+	\item qualitative examples of found architectures are shown
+	\item both methods are described in great detail
 \end{itemize}
 
 
 \section*{Weaknesses}
 The reviewer negatively notes that
 \begin{itemize}
-	\item 
+	\item there is a line break in an equation,
+	\item there was some peculiar language and incorrect grammar,
+	\item a discussion is missing, despite being mentioned in the introduction.
 \end{itemize}
 
 
 
 
 \section*{Correctness}
-
+While the reviewer is not particularly familiar with NAS literature, I am confident that the authors cited properly and that the methods presented are described accurately.
 
 \section*{Clarity}
+The reviewer found the work easy to follow. Motivation was clear.
+However, a more extensive introduction and related works section would have been helpful to have some more context before methods are described in detail. Also, a discussion section would have helped to build a better understanding about limitations of Proxyless NAS and Single-Path NAS.
 
 
 \section*{Further Comments}
+The work is a very good summary of the methods Proxyless NAS and Single-Path NAS. These two methods are described well formally and a good intuition is given, aided by helpful visuals. The authors show a deep understanding of NAS and the described methods. 
 
 
 
 \section*{Rating and Confidence}
 \begin{itemize}
-	\item Overall Score: 
-	\item Confidence: 
+	\item Overall Score: 7.5
+	\item Confidence: 6
 \end{itemize}
 
 
