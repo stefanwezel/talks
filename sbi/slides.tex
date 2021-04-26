@@ -1,7 +1,7 @@
 % !TeX program = xelatex
 \documentclass[9pt]{beamer}
 \usepackage{xcolor}
-\definecolor{orange}{HTML}{71697A}
+\definecolor{orange}{HTML}{FF1053}
 \definecolor{lightgray}{HTML}{CCCCCC}
 \definecolor{red}{HTML}{AC454A}
 \definecolor{brown}{HTML}{EAD296}
@@ -75,11 +75,10 @@
 \makeatother
 
 
-\title{The Interactive Isnalyser \\
-	\small Automation of isnād trees drawing}
-\author{Stefan Wezel, Maroussia Bednarkiewicz, Álvaro Tejero-Cantero}
+\title{Simulation-based Inference \\
+	\small Inverting Simulators}
+\author{Talk by Stefan Wezel}
 \institute{mlcolab @ Tübingen University Cluster of Excellence}
-
 \date{\today}
 
 
@@ -110,359 +109,76 @@
 \usebeamercolor[fg]{normal text}
 \setbeamertemplate{itemize item}{\color{darkgrey}$\circ$}
 \begin{frame}
-\frametitle{Setting}
-\framesubtitle{What is an isnād tree?}
+\frametitle{Overview}
+\framesubtitle{}
+\begin{itemize}
+	\item What?
+	\item Why?
+	\item ABC
+	\item SBI
+	\item Outlook
+\end{itemize}
+\end{frame} 
+
+
+
+
+\begin{frame}
+\frametitle{What}
+\framesubtitle{is Simulation-based Inference?}
+\begin{itemize}
+	\item If we know generating factors, we can build a simulator
+	\item But we want to constrain simulator output on observations from real world
+	\item Thus we need realistic values for simulator parameters
+	\item -> inverse problem
+	\item SBI solvers this inverse problem using Bayesian inference
+\end{itemize}
+\end{frame} 
+
+
+
+
+\begin{frame}
+\frametitle{Why}
+\framesubtitle{do we need Simulation-based Inference?}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame} 
+
+
+
+\begin{frame}
+\frametitle{How}
+\framesubtitle{Approximate Bayesian Computation}
+\begin{itemize}
+	\item Finding parameters/posterior over parameters with
+	\begin{itemize}
+		\item Rejection ABC
+		\item Markov Chain Monte Carlo ABC
+		\item Sequential Monte Carlo ABC
+		\item ...
+	\end{itemize}
+	\item Problems
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{itemize}
+\end{frame} 
+
+
+
+
+
+
+\begin{frame}
+\frametitle{How}
+\framesubtitle{does Simulation-based Inference work?}
 \begin{figure}
 	%	\flushright
-	\includegraphics[width=.5\linewidth]{figures/isnalyser_parts_1.pdf}
+	%	\includegraphics[width=.5\linewidth]{figures/isnalyser_parts_1.pdf}
 \end{figure}
 \end{frame} 
-\begin{frame}
-\frametitle{Setting}
-\framesubtitle{What is an isnād tree?}
-\begin{figure}
-%	\flushright
-\includegraphics[width=.5\linewidth]{figures/isnalyser_parts_2.pdf}
-\end{figure}
-\end{frame} 
-\begin{frame}
-\frametitle{Setting}
-\framesubtitle{What is an isnād tree?}
-\begin{figure}
-%	\flushright
-\includegraphics[width=.5\linewidth]{figures/isnalyser_parts_3.pdf}
-\end{figure}
-\end{frame} 
-
-
-
-
-
-
-
-\begin{frame}
-\frametitle{Setting}
-\framesubtitle{Automizing isnād tree drawing}
-\begin{itemize}%\setlength\itemsep{1.5em}
-%	\item Tour through this project
-%	\item But before
-%	\item Ḥadīth
-%	\item Model Ḥadīth transmissions with isnād trees
-%	\item Scholars model Ḥadīth transmissions with isnād trees
-	\item Drawing by hand can be tedious
-	\pause
-	\item Automation approaches
-	\begin{itemize}
-		\item Automation of data processing
-		\item Automation of visualization (ours)
-	\end{itemize}
-	\pause
-	\item Our focus:
-	\begin{itemize}
-		\item Reproducability $\rightarrow$ fair comparison of data
-		\item Open source spirit $\rightarrow$ interact with the software
-		\item Colaborative platform $\rightarrow$ share, annotate, edit
-	\end{itemize}
-	\pause
-	\item Two milestones
-	\begin{itemize}
-		\item Software library (Python)
-		\item Web application (Javascript)
-	\end{itemize}
-	\pause
-	\item Let's start with the Python version
-%	\item Visualization helps
-\end{itemize}
-%image here
-\end{frame} 
-
-
-
-
-
-
-\begin{frame}
-\frametitle{Isnalyser}
-\framesubtitle{The beginnings}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item Exploring different tools/languages
-	\pause
-	\item Python as language of choice
-	\begin{itemize}
-		\item Powerful and flexible
-		\item Great community and ecosystem
-		\item Graphviz as library for drawing graphs
-	\end{itemize}
-\pause
-	\item Graphviz
-	\begin{itemize}
-		\item Open source tool
-		\item Draws graphs specified in DOT language
-%		\item Available as Python library
-	\end{itemize}
-	%	\item Basic constraints
-\end{itemize}
-%	\begin{figure}
-%%	\flushright
-%	\includegraphics[width=.28\linewidth]{figures/graphviz.png}
-%\end{figure}
-\end{frame} 
-
-
-
-
-
-
-
-
-\begin{frame}
-\frametitle{Isnalyser}
-\framesubtitle{Creating the library}
-\begin{itemize}%\setlength\itemsep{1.5em}
-		\item Next step: turn code into open source Python library
-		\pause
-		\begin{itemize}		
-	\item Move everything to Github%(first step towards open source project)
-	\item Register on PyPI - platform for Python libraries
-%	\item PyPI as platform for Python libraries
-	\item Adjust folder structure/files according to PyPI standards
-	\pause
-			\begin{figure}
-		\flushleft
-		\includegraphics[width=.6\linewidth]{figures/test_pypi.png}
-	\end{figure}
-	\item \texttt{Upload on Test-PyPI}
-	\begin{itemize}
-		\item \texttt{Download and test}
-		\item \texttt{See that it does not work}
-		\item \texttt{Repeat 3-4 times}
-%		\item See that is does not work
-%		\item Repeat 3-4 times until it works
-	\end{itemize}
-\pause
-	\item \texttt{Upload to real PyPI and feel good!}
-\end{itemize}
-		\end{itemize}
-\end{frame} 
-
-
-\begin{frame}
-\frametitle{Isnalyser}
-\framesubtitle{Publishing the library}
-	\begin{figure}
-	\flushleft
-	\includegraphics[width=.6\linewidth]{figures/pypi.png}
-\end{figure}
-\begin{itemize}%\setlength\itemsep{1.5em}
-%	\item Ready for use
-	\pause
-	\item If you are interested: Just \texttt{pip install isnalyser}
-	\item Documentation on Github
-\end{itemize}
-\end{frame} 
-
-
-
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{Making the isnalyser more accessible}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item Using Python library requires coding knowledge
-	\item Limited audience/reproducability?
-	\pause
-	\item Idea: create a web application
-	\item Users can upload table and explore their data
-	\item Provide more features to interact with graph
-	\pause
-	\item Natural choice: Javascript
-\end{itemize}
-	\begin{figure}
-%	\flushleft
-	\includegraphics[width=.6\linewidth]{figures/python2js.pdf}
-\end{figure}
-\end{frame} 
-
-
-
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{Choosing the tools}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item But which extensions?
-	\item Long phase of exploration
-	\pause
-	\begin{itemize}
-		\item $\rightarrow$D3, Dagre, Cytoscape, ...
-	\end{itemize}
-	\begin{figure}
-	\flushleft
-	\includegraphics[width=1\linewidth]{figures/js_libs_1.pdf}
-\end{figure}
-\end{itemize}
-\end{frame} 
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{Choosing the tools}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item But which extensions?
-	\item Long phase of exploration
-	\begin{itemize}
-		\item D3, $\rightarrow$Dagre, Cytoscape, ...
-	\end{itemize}
-	\begin{figure}
-		\flushleft
-		\includegraphics[width=1\linewidth]{figures/js_libs_2.pdf}
-	\end{figure}
-\end{itemize}
-\end{frame} 
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{Choosing the tools}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item But which extensions?
-	\item Long phase of exploration
-	\begin{itemize}
-		\item D3, Dagre, $\rightarrow$Cytoscape, ...
-	\end{itemize}
-	\begin{figure}
-		\flushleft
-		\includegraphics[width=1\linewidth]{figures/js_libs_3.pdf}
-	\end{figure}
-\end{itemize}
-\end{frame} 
-
-
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{Choosing the tools}
-\begin{itemize}%\setlength\itemsep{1.5em}
-%	\item Each has strengths and weaknesses
-	\item What do we really want?
-	\pause
-	\begin{itemize}
-			\item Edge layout
-			\item Precise constraints
-			\item Customize style
-			\item Add interactive features
-			\pause
-		\begin{itemize}
-			\item $\rightarrow$ Interactive, shiny Graphviz :(
-		\end{itemize}		
-		\pause
-		\item Solution: d3-graphviz
-	\begin{itemize}
-		\item Direct translations of Graphviz to Javascript with d3-capabilities
-		\item Combine graphviz layout and d3 visualization/interaction 
-%		\item Interactive graph with nice layout
-	\end{itemize}
-	\end{itemize}
-
-
-\end{itemize}
-%	\begin{figure}
-%	\flushright
-%	\includegraphics[width=.22\linewidth]{figures/d3_graphviz.png}
-%\end{figure}
-\end{frame} 
-
-
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{Getting to work and keeping track}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item Translate core functionalities
-	\item Add features for interactive use
-	\pause
-	\item Use Gitflow for feature management
-	\begin{itemize}
-		\item Main branch
-		\item Each new feature as new branch
-		\item If feature is finished, merge into main branch 
-	\end{itemize}
-	\begin{figure}
-	\flushleft
-	\includegraphics[width=.7\linewidth]{figures/git.png}
-\end{figure}
-\pause
-	\item Transparent development history
-	\item Always one working version
-	\item Now at version 0.1.0 - ready for first release
-	
-%	\item Now ready for its first release
-\end{itemize}
-\end{frame}
-
-
-
-\begin{frame}
-\frametitle{Isnalyserjs}
-\framesubtitle{A small snippet}
-	\begin{figure}
-	\flushleft
-	\includegraphics[width=1.1\linewidth]{figures/isnalyser_screenshot.pdf}
-\end{figure}
-\end{frame}
-
-
-
-\begin{frame}
-\frametitle{Future of the Isnalyser}
-\framesubtitle{What is next?}
-\begin{itemize}
-	\item Publish in Journal of Open Source Software
-	\pause
-	\item Transform into collaborative platform
-	\begin{itemize}
-		\item Users can upload and share graphs
-		\item Edit, annotate other graphs
-	\end{itemize}
-\pause
-	\item Beyond isnād trees
-	\begin{itemize}
-		\item I.e. citation networks
-	\end{itemize}
-\end{itemize}
-\end{frame}
-
-
-
-
-
-
-\setbeamercolor{background canvas}{bg=orange}
-\setbeamercolor{normal text}{fg=white}
-\usebeamercolor[fg]{normal text}
-\setbeamertemplate{itemize item}{\color{white}$\circ$}
-\setbeamercolor{structure}{fg=white} % itemize, enumerate, etc
-\begin{frame}
-\frametitle{Takeaways}
-\framesubtitle{What to keep from this project?}
-\begin{itemize}%\setlength\itemsep{1.5em}
-	\item Creating PyPI package is easy
-	\pause
-	\item Git flow helps keeping track and maintaining transparency
-	\pause
-%	\item Know your Audience
-%	\item Seemingly easy problems can turn out quite hard
-%	\item Listen to different opinions %Alvaro v Maroussia v Stefan
-	\item Most important part of the project are users
-	\item Interaction happens on many levels
-	\pause
-	\item If you interested in the isnalysers
-	\begin{itemize}
-		\item Try them out
-		\item File github issues
-		\item Send us mails
-		\item Extent the code
-	\end{itemize}
-%	\item Live demo
-\end{itemize}
-\end{frame} 
-
-
-
-
-
 
 
 
