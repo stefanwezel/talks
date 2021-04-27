@@ -1,0 +1,118 @@
+\documentclass[12pt]{article}
+
+% Some typesetting decisions
+\usepackage[utf8]{inputenc}
+
+% Typesetting and basic formatting. 
+% This PDF is made to be read on-screen,
+% so we use large fonts and little margin
+\usepackage[margin=30mm]{geometry}
+\usepackage{fourier}
+\usepackage{setspace}
+\setstretch{1.1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+\frenchspacing
+\sloppy
+
+
+% Links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor={green!50!black},citecolor={blue!50!black}, urlcolor={red!50!black}}  
+% This one is for demo-purposes only, don't use it in your submission ;) 
+\usepackage{blindtext}
+
+% Citation with natbib: 
+% Use \citet{} and \citep{} only, not \cite{}
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+
+
+
+% Custom (maths) commands
+\usepackage{amsmath, amssymb}
+\usepackage{bm}
+
+\newcommand{\Ebb}{\mathbb{E}}
+\newcommand{\Rbb}{\mathbb{R}}
+\newcommand{\Sbb}{{\mathbb{S}}}
+\newcommand{\Tbb}{\mathbb{T}}
+\newcommand{\Nbb}{\mathbb{N}}
+\newcommand{\Xbb}{{\mathbb{X}}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\Dbb}{\mathbb{D}}
+\newcommand{\Ybb}{\mathbb{Y}}
+\newcommand{\onebb}{\mathbb{1}}
+\newcommand{\Ncal}{\mathcal{N}}
+\newcommand{\Mcal}{\mathcal{M}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Bcal}{\mathcal{B}} 
+\newcommand{\Qcal}{\mathcal{Q}} 
+\newcommand{\Acal}{\mathcal{A}}
+\newcommand{\Xcal}{\mathcal{X}}
+\newcommand{\Tcal}{\mathcal{T}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Zcal}{\mathcal{Z}}
+\newcommand{\Rcal}{\mathcal{R}}
+\newcommand{\Ocal}{\mathcal{O}}
+\newcommand{\Fcal}{\mathcal{F}}
+\newcommand{\Dcal}{\mathcal{D}}
+\newcommand{\Ycal}{\mathcal{Y}}
+\newcommand{\Ecal}{\mathcal{E}}
+\newcommand{\Hcal}{\mathcal{H}}
+\newcommand{\Ucal}{\mathcal{U}}
+\newcommand{\Ccal}{\mathcal{C}}
+\newcommand{\Ical}{\mathcal{I}}
+\newcommand{\diff}{\,\text{d}}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\cond}{cond}
+\DeclareMathOperator{\gp}{GP}
+\DeclareMathOperator{\divergence}{div}
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+
+
+
+
+% Insert the title of your presentation, your name, and your e-mail here.
+% Leave the rest as is.
+\title{\vskip-3em \bf 
+	Simulation-based Inference
+    }
+\author{
+    A Summary Written by Stefan Wezel \\
+    \texttt{stefan.wezel@student.uni-tuebingen.de}
+}
+\date{\it Machine Learning for and with Dynamical Systems\\Summer Term 2021}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}\vskip-1.5em \noindent
+    Summarise the main messages of the paper in 2-4 sentences. There is no reason to do more, because the entire document is super short anyway. Mention the work that your paper is based on, in this example:
+    \citet{bosch2021calibrated}
+\end{abstract}
+
+Write 2-3 pages that summarise your topic.
+
+Use \texttt{citet}: \citet{bosch2021calibrated} and \texttt{citep}: \citep{bosch2021calibrated}
+for proper referencing. Cite thoroughly. Check proper capitalisation in your references.
+
+Use only the provided maths commands use \texttt{align} for embedded maths (not \texttt{align*}):
+\begin{align}
+    \Fcal, \Rbb, \Nbb
+\end{align}
+The \texttt{diff} command is for proper typesetting in integrals: $\int f(x) \diff x$, not $\int f(x) dx$.
+If you need conditional probabilities, use \texttt{mid} for $A$ conditioned on $B$: $p(A \mid B)$.
+
+Write clearly; pay attention to clarity, simplicity, and -- above all -- correctness of your statements. Look up how to write a scientific document.
+
+\bibliography{bibfile}
+\end{document}
