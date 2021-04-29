@@ -9,6 +9,7 @@
 \usepackage[margin=30mm]{geometry}
 \usepackage{fourier}
 \usepackage{setspace}
+\usepackage{graphicx}
 \setstretch{1.1}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{12pt}
@@ -96,24 +97,42 @@
 \maketitle
 
 \begin{abstract}\vskip-1.5em \noindent
-    Summarise the main messages of the paper in 2-4 sentences. There is no reason to do more, because the entire document is super short anyway. Mention the work that your paper is based on, in this example:
-    \citet{bosch2021calibrated}
+Simulators are used across different scientific domains where serve as valuable tools to encode empirical knowledge about a system of interest. Inference in this setting often boils down to finding parameters of the simulator for a given, real-world observation, which typically cannot be computed analytically.\citet{papamakarios2016fast} propose to learn a posterior over a simulators parameters by using neural density estimators. Here, we give an overview of their work and SBI in general.
 \end{abstract}
 
 
-\section*{Problem Setting}
-\section*{Traditional Approximate Bayesian Computation}
+\section*{Problem Setting and Related Work}
+Scientific fields, such as population genetics, particle physics, epidemiology, astrophysics among others make use of sophisticated simulators to model observed systems \citep{brehmer2020simulation, de2020simulation, delaunoy2020lightning,cranmer2020frontier, pritchard1999population}. These simulators are able to encode prior knowledge like causal relations, hierarchies of variables, ... Performing inference in this setting, however, would require a finding a posterior over parameters $\theta$ for a given observation $x_0$. This can be stated in closed form as 
+\begin{align}
+	p(\theta|x=x_0) = \frac{p(x|\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z|\theta)dz}^{intractable} p(\theta)}{\underbrace{\int p(x|\theta)p(\theta)d\theta}_{intractable}},
+\end{align}
+where $z$ is a nuisance parameter. If likelihood and evidence are intractable, which is typically the case, this cannot be computed analytically. Intuitively, it can be thought of as inverting the simulator. \\
+A collective term for methods to solve this inverse problem is Approximate Bayesian Computation (ABC). The most simple approach is rejection ABC \citep{pritchard1999population} where samples produced by a simulator are discarded if notis within a $\epsilon$-ball around the observation of interest. For small values of $\epsilon$ this method may take many steps to even produce a single matching parameter set. For large $\epsilon$ it is not precise. Moreover, this method does not produce a full posterior over the parameter but merely yields point estimates with confident intervals. With Markov-Chain-Monte-Carlo ABC and Sequential ABC improvements over rejection ABC have been proposed. These methods produce samples more efficiently. While this can lead to faster convergence, it does not produce a full posterior over parameters that is conditioned on the actual observation, but rather a sample that is close to it.
+
+%In practice these resulting pseudo-distributions are often much wider than the actual posterior. [citation needed]
+ 
+
+
+
 \section*{Neural Approach}
-\section*{Possible Enhancements}
+\citet{papamakarios2016fast} build on recent advances in deep learning to learn a posterior over parameters directly from sample produced by a simulator. They use Deep Neural Networks (DNN) to parameterize a Gaussian Mixture Model.
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.8\linewidth]{figures/sbi_vis.pdf}
+	\caption{}
+%	\label{fig:fhave}
+\end{figure} 
+
+\section*{Possible Enhancements/Open Ends}
 \section*{Conclusion}
 
 
 
 
-Write 2-3 pages that summarise your topic.
 
-Use \texttt{citet}: \citet{bosch2021calibrated} and \texttt{citep}: \citep{bosch2021calibrated}
-for proper referencing. Cite thoroughly. Check proper capitalisation in your references.
+
 
 Use only the provided maths commands use \texttt{align} for embedded maths (not \texttt{align*}):
 \begin{align}
