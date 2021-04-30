@@ -106,7 +106,7 @@ Scientific fields, such as population genetics, particle physics, epidemiology, 
 \begin{align}
 	p(\theta|x=x_0) = \frac{p(x|\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z|\theta)dz}^{intractable} p(\theta)}{\underbrace{\int p(x|\theta)p(\theta)d\theta}_{intractable}},
 \end{align}
-where $z$ is a nuisance parameter. If likelihood and evidence are intractable, which is typically the case, this cannot be computed analytically. Intuitively, it can be thought of as inverting the simulator. \\
+where $z$ is a nuisance parameter. If likelihood and evidence are intractable, which is typically the case, this cannot be computed analytically. Intuitively, it can be thought of as inverting the simulator.\\
 A collective term for methods to solve this inverse problem is Approximate Bayesian Computation (ABC). The most simple approach is rejection ABC \citep{pritchard1999population} where samples produced by a simulator are discarded if notis within a $\epsilon$-ball around the observation of interest. For small values of $\epsilon$ this method may take many steps to even produce a single matching parameter set. For large $\epsilon$ it is not precise. Moreover, this method does not produce a full posterior over the parameter but merely yields point estimates with confident intervals. With Markov-Chain-Monte-Carlo ABC and Sequential ABC improvements over rejection ABC have been proposed. These methods produce samples more efficiently. While this can lead to faster convergence, it does not produce a full posterior over parameters that is conditioned on the actual observation, but rather a sample that is close to it.
 
 %In practice these resulting pseudo-distributions are often much wider than the actual posterior. [citation needed]
@@ -115,13 +115,18 @@ A collective term for methods to solve this inverse problem is Approximate Bayes
 
 
 \section*{Neural Approach}
-\citet{papamakarios2016fast} build on recent advances in deep learning to learn a posterior over parameters directly from sample produced by a simulator. They use Deep Neural Networks (DNN) to parameterize a Gaussian Mixture Model.
+\citet{papamakarios2016fast} build on recent advances in deep learning to learn a posterior over parameters directly from sample produced by a simulator. They use Deep Neural Networks (DNN) to parameterize a Gaussian Mixture Model (GMM). They use the simulator to perform $n$ simulations and storing pairs of samples $x$ and corresponding parameters $\theta$. This gives the set $\lbrace(x_i,\theta_i)\rbrace_{i \in n}$ which they use as training data. DNNs are fitted to parameterize a GMM
+
+\begin{align}
+	\sum_k \alpha_k \mathcal{N}(\theta|m_k, S_k) = \sum_k f_1(x)_k \mathcal{N}(\theta|f_2(x)_k, diag(f_3(x))_k)
+\end{align}
+, where $k$ is the number of components, $m$ the mean and $S$ the covariance matrix of a Gaussian, and $f_{\lbrace 1,2,3 \rbrace}$ are MLPs.
 
 
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{figures/sbi_vis.pdf}
-	\caption{}
+	\caption{Given samples by the simulator, Multilayer perceptrons (MLP) are trained to parameterize a distribution over parameters generating the sample. A training signal is created by sampling from this distribution and comparing the sample to the actual parameters which are known.}
 %	\label{fig:fhave}
 \end{figure} 
 

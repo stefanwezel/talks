@@ -130,18 +130,74 @@
 \frametitle{What and Why?}
 \framesubtitle{An Example}
 \begin{itemize}
-	\item Imagine you are a astronomer
-	\item You observe planetary movements
-	\item and find that two parameters determine the movement (mass and velocity) (and some noise)
-	\item So you build a mechanistic model that can simulate observations
-	\item But what do we actually care about?
+	\item Inverting simulators - so first let's find out what a simulator is
+	\item Imagine you are a physicist
+	\item You have also highly sophisticated experiments that can produce observations
+	\item You have highly sophisticated models, theories that can produce observations like from your experiment, that were developed over centuries
+	\item But what do we actually care about? How do you perform inference?
 	\begin{itemize}
-		\item What was the mass and velocity of that planet
+		\item What were the parameters for your observation
 %		\item In other words: what were the parameters $\theta$ for observation $x_0$
 	\end{itemize}
 %	\item You're simulator has no direct answer to this question except for trying everything out
 \end{itemize}
 \end{frame} 
+
+
+
+\begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+	\begin{figure}
+	\includegraphics[width=1\linewidth]{figures/lhc1.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame}
+\begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+\begin{figure}
+	\includegraphics[width=1\linewidth]{figures/lhc2.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame}
+\begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/lhc3.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame} \begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/lhc4.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame} \begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/lhc5.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame} \begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/lhc6.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame} \begin{frame}
+\frametitle{What and Why?}
+\framesubtitle{An Example}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/lhc7.pdf}
+\end{figure}
+\tiny Figure derived from \textit{cern.ch, Achintya Rao and Tom McCauley, sciencealert.com}
+\end{frame} 
+
 
 
 \begin{frame}
@@ -181,6 +237,28 @@
 
 
 
+%\begin{frame}
+%\frametitle{When is this useful?}
+%\framesubtitle{SBI at LHC}
+%\begin{itemize}
+%	\item Simulator of standard model of particle physics
+%	\item many parameters
+%	\begin{itemize}
+%		\item parameters $\theta$
+%		\item nuisance parameters $z$ (particle momenta, splitting, detector interaction, ..)
+%	\end{itemize}
+%	\item that produce observation $x$
+%	\item likelihood $\int p(x,z|\theta)dz$ intractable
+%\end{itemize}
+%		\begin{figure}
+%%	\flushleft
+%	\includegraphics[width=.6\linewidth]{figures/lhc.jpg}
+%\end{figure}
+%\end{frame} 
+%
+
+
+
 \begin{frame}
 \frametitle{Simulation-based Inference}
 \framesubtitle{Traditional Approach}
@@ -194,7 +272,8 @@
 	\begin{itemize}
 		\item But gives only point estimates, not full posterior
 		\item within $\epsilon$
-	\end{itemize}	
+	\end{itemize}
+	\item Some improvements are MCMC ABC and Sequential ABC but they only improve sample efficiency but still produce merely point estimate	
 \end{itemize}
 \end{frame} 
 
@@ -208,7 +287,7 @@
 	\item Create $n$ training samples
 	\item learn posterior over parameters by parametrizing GMM with DNN
 \end{itemize}
-\end{frame} 
+\end{frame}
 
 
 
