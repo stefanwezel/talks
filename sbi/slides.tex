@@ -204,17 +204,22 @@
 \frametitle{What and Why?}
 \framesubtitle{Formalizing our Example}
 \begin{itemize}
-	\item Mechanistic model (simulator) has parameters $\theta$ and produces data $\hat{x}$
+	\item Before we go into SBI, let's take a minute to formalize our setting
+	\item Simulator has parameters $\theta$, nuisance parameter $z$ and produces data $\hat{x}$
 	\begin{itemize}
-		\item It implicitly defines $p(\hat{x}|\theta)$ (it yields samples from this distribution)
+		\item It implicitly defines $p(\hat{x},z|\theta)$ (it yields samples from this distribution)
 	\end{itemize}
 	\item Given a (real) observation $x_0$, we would be interested in the parameters that produced it
-	\begin{itemize}
-		\item $p(\theta|x_0)$ -> posterior over parameters
-		\item In simple cases, we could apply Bayes' rule and compute it analytically
-		\item What is simple? If we know Likelihood
-		\item But often we would not
-	\end{itemize}
+	\begin{align}
+	p(\theta|x=x_0) = \frac{p(x|\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z|\theta)dz}^{intractable} p(\theta)}{\underbrace{\int p(x|\theta)p(\theta)d\theta}_{intractable}},
+	\end{align}
+%	\begin{itemize}
+%		\item $p(\theta|x_0)$ -> posterior over parameters
+%		\item In simple cases, we could apply Bayes' rule and compute it analytically
+%		\item What is simple? If we know Likelihood
+%		\item But often we would not
+%	\end{itemize}
+\item $q_{\phi}(\theta|x)=\Sigma_k \alpha_k\mathcal{N}(\theta|m_{k}, S_{k}) \sim$
 \end{itemize}
 \end{frame} 
 
@@ -279,15 +284,60 @@
 
 
 
-
+%%%%%%%%% sbi visualizations
 \begin{frame}
 \frametitle{Learning a Posterior}
-\framesubtitle{Bayesian Neural Nets to the Rescue}
-\begin{itemize}
-	\item Create $n$ training samples
-	\item learn posterior over parameters by parametrizing GMM with DNN
-\end{itemize}
-\end{frame}
+\framesubtitle{from Simulations}
+\begin{figure}
+	\includegraphics[width=1\linewidth]{figures/sbivis1.pdf}
+\end{figure}
+\end{frame} 
+\begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+	\includegraphics[width=1\linewidth]{figures/sbivis2.pdf}
+\end{figure}
+\end{frame} \begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/sbivis3.pdf}
+\end{figure}
+\end{frame} \begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/sbivis4.pdf}
+\end{figure}
+\end{frame} \begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/sbivis5.pdf}
+\end{figure}
+\end{frame} \begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/sbivis6.pdf}
+\end{figure}
+\end{frame} \begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/sbivis7.pdf}
+\end{figure}
+\end{frame} 
+
+%\begin{frame}
+%\frametitle{Learning a Posterior}
+%\framesubtitle{Bayesian Neural Nets to the Rescue}
+%\begin{itemize}
+%	\item Create $n$ training samples
+%	\item learn posterior over parameters by parametrizing GMM with DNN
+%\end{itemize}
+%\end{frame}
 
 
 
