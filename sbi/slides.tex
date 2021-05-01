@@ -15,6 +15,7 @@
 \usepackage{natbib}
 \usepackage{animate}
 \usepackage{graphicx}
+\usepackage{algorithm2e}
 %\usepackage[T1]{fontenc}
 
 \bibliographystyle{abbrv}
@@ -114,9 +115,8 @@
 \begin{itemize}
 	\item The problem setting %(as this is rather unfamiliar to ML researchers)
 	\item Traditional approaches and their issues
-	\item Using Bayesian Neural Nets to alleviate them
+	\item Using Neural Nets to alleviate them
 	\item A worked example
-	\item A more interesting, real-world example
 	\item Outlook %(and some advertisement)
 \end{itemize}
 \end{frame} 
@@ -130,15 +130,26 @@
 \frametitle{What and Why?}
 \framesubtitle{An Example}
 \begin{itemize}
-	\item Inverting simulators - so first let's find out what a simulator is
-	\item Imagine you are a physicist
-	\item You have also highly sophisticated experiments that can produce observations
-	\item You have highly sophisticated models, theories that can produce observations like from your experiment, that were developed over centuries
-	\item But what do we actually care about? How do you perform inference?
+	\item Inverting simulators?% - so first let's find out what a simulator is
+	\item What is a simulator? % in context of this presentation
 	\begin{itemize}
-		\item What were the parameters for your observation
-%		\item In other words: what were the parameters $\theta$ for observation $x_0$
+		\item Forward, generative model with parameters and stochasticity
+		\item Produces observations
+		\item In context of this talk computer program, but can be electrical circuit (Hodgkin–Huxley model)
 	\end{itemize}
+	\item Used by scientists to model empirical observed data
+	\item Used in particle physics, population genetics, epidemiology
+	\item Encode knowledge about systems gathered over centuries
+%	\item Model for theories developed over centuries
+	% For further intuition, let's look at an example (and I'm not gonna talk about epidemiology)
+%	\item Imagine you are a physicist
+%	\item You have also highly sophisticated experiments that can produce observations
+%	\item You have highly sophisticated models, theories that can produce observations like from your experiment, that were developed over centuries
+%	\item But what do we actually care about? How do you perform inference?
+%	\begin{itemize}
+%		\item What were the parameters for your observation
+%%		\item In other words: what were the parameters $\theta$ for observation $x_0$
+%	\end{itemize}
 %	\item You're simulator has no direct answer to this question except for trying everything out
 \end{itemize}
 \end{frame} 
@@ -219,7 +230,7 @@
 %		\item What is simple? If we know Likelihood
 %		\item But often we would not
 %	\end{itemize}
-\item $q_{\phi}(\theta|x)=\Sigma_k \alpha_k\mathcal{N}(\theta|m_{k}, S_{k}) \sim$
+%\item $q_{\phi}(\theta|x)=\Sigma_k \alpha_k\mathcal{N}(\theta|m_{k}, S_{k}) \sim$
 \end{itemize}
 \end{frame} 
 
@@ -271,17 +282,40 @@
 	\item Broader term: Approximate Bayesian Computation (ABC)
 	\begin{itemize}
 		\item Rejection ABC
-		\item Sampling ABC (perturbe intitial params)
-		\item Sequential ABC
+		\item Sampling ABC (perturb initial parameters)
+		\item Sequential ABC (importance sampling)
 	\end{itemize}
-	\begin{itemize}
 		\item But gives only point estimates, not full posterior
 		\item within $\epsilon$
-	\end{itemize}
-	\item Some improvements are MCMC ABC and Sequential ABC but they only improve sample efficiency but still produce merely point estimate	
+	\item \cite{papamakarios2016fast} propose to use neural networks to parameterize GMM
+%	\item Some improvements are MCMC ABC and Sequential ABC but they only improve sample efficiency but still produce merely point estimate	
 \end{itemize}
 \end{frame} 
 
+
+
+%%%%%%%%% posterior algo
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{algorithm}[H]
+%	initialize $q_{\phi}(\theta| x)$ with K components \\
+%	\tcp{if $q_{\phi}$ available by Algorithm~\ref*{alg:train_prop_prior}}
+%	\tcp{initialize by replicating its}
+	\tcp{Create training set}
+	\For{$n=1..N$}{
+		sample $\theta_n \sim \tilde{p}(\theta)$ \\
+		sample $x_n \sim p(x|\theta_n)$ \\
+	}
+	\tcp{Find variational posterior over parameters}
+	train $q_{\phi}(\theta| x)$ on $\lbrace \theta_n, x_n \rbrace$\\
+	\tcp{Find posterior over parameters for given observation}
+	$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%	\vspace{1px}
+%	\caption{Training of posterior}
+%	\label{alg:train_posterior}
+\end{algorithm}
+\end{frame} 
 
 
 %%%%%%%%% sbi visualizations
@@ -330,6 +364,111 @@
 \end{figure}
 \end{frame} 
 
+
+
+
+
+%%%%%%%%%%%%% prior algo
+%%%%%%%%%sbi algo
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{algorithm}[H]
+%	\tcp{Initial proposal prior}
+	$\color{orange}\tilde{p}(\theta) \leftarrow p(\theta)$\\
+%	\tcp{Create training set}
+	\Repeat{$\tilde{p}(\theta)$ has converged}{
+		\For{$n=1..N$}{
+			sample $\theta_n \sim \tilde{p}(\theta)$ \\
+			sample $x_n \sim p(x|\theta_n)$ \\
+		}
+		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
+		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	}
+\end{algorithm}
+\vspace{35pt}
+\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\end{frame} 
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{algorithm}[H]
+	%	\tcp{Initial proposal prior}
+	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
+	%	\tcp{Create training set}
+	\Repeat{$\tilde{p}(\theta)$ has converged}{
+		\color{orange}\For{$n=1..N$}{
+			sample $\theta_n \sim \tilde{p}(\theta)$ \\
+			sample $x_n \sim p(x|\theta_n)$ \\
+		}
+	\color{black}
+		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
+		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	}
+\end{algorithm}
+\vspace{35pt}
+\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\end{frame} 
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{algorithm}[H]
+	%	\tcp{Initial proposal prior}
+	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
+	%	\tcp{Create training set}
+	\Repeat{$\tilde{p}(\theta)$ has converged}{
+		\For{$n=1..N$}{
+			sample $\theta_n \sim \tilde{p}(\theta)$ \\
+			sample $x_n \sim p(x|\theta_n)$ \\
+		}
+		\color{orange} train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
+		\color{black}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	}
+\end{algorithm}
+\vspace{35pt}
+\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\end{frame} 
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{algorithm}[H]
+	%	\tcp{Initial proposal prior}
+	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
+	%	\tcp{Create training set}
+	\Repeat{$\tilde{p}(\theta)$ has converged}{
+		\For{$n=1..N$}{
+			sample $\theta_n \sim \tilde{p}(\theta)$ \\
+			sample $x_n \sim p(x|\theta_n)$ \\
+		}
+		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
+		\color{orange}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	}
+\end{algorithm}
+\vspace{35pt}
+\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\end{frame} 
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{algorithm}[H]
+	%	\tcp{Initial proposal prior}
+	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
+	%	\tcp{Create training set}
+	\Repeat{\color{orange}$\tilde{p}(\theta)$ has converged}{
+		\For{$n=1..N$}{
+			sample $\theta_n \sim \tilde{p}(\theta)$ \\
+			sample $x_n \sim p(x|\theta_n)$ \\
+		}
+		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
+		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	}
+\end{algorithm}
+\vspace{35pt}
+\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\end{frame} 
+
+
+
 %\begin{frame}
 %\frametitle{Learning a Posterior}
 %\framesubtitle{Bayesian Neural Nets to the Rescue}
@@ -339,7 +478,13 @@
 %\end{itemize}
 %\end{frame}
 
-
+\begin{frame}
+\frametitle{}
+\framesubtitle{}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame} 
 
 
 \begin{frame}
