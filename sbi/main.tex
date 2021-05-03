@@ -104,10 +104,10 @@ Simulators are used across different scientific domains where serve as valuable 
 \section*{Problem Setting and Related Work}
 Scientific fields, such as population genetics, particle physics, epidemiology, astrophysics among others make use of sophisticated simulators to model observed systems \citep{brehmer2020simulation, de2020simulation, delaunoy2020lightning,cranmer2020frontier, pritchard1999population}. These simulators are able to encode prior knowledge like causal relations, hierarchies of variables, ... Performing inference in this setting, however, would require a finding a posterior over parameters $\theta$ for a given observation $x_0$. This can be stated in closed form as 
 \begin{align}
-	p(\theta|x=x_0) = \frac{p(x|\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z|\theta)dz}^{intractable} p(\theta)}{\underbrace{\int p(x|\theta)p(\theta)d\theta}_{intractable}},
+	p(\theta|x=x_0) = \frac{p(x|\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z|\theta)\diff z}^{intractable} p(\theta)}{\underbrace{\int p(x|\theta)p(\theta) \diff \theta}_{intractable}},
 \end{align}
 where $z$ is a nuisance parameter. If likelihood and evidence are intractable, which is typically the case, this cannot be computed analytically. Intuitively, it can be thought of as inverting the simulator.\\
-A collective term for methods to solve this inverse problem is Approximate Bayesian Computation (ABC). The most simple approach is rejection ABC \citep{pritchard1999population} where samples produced by a simulator are discarded if notis within a $\epsilon$-ball around the observation of interest. For small values of $\epsilon$ this method may take many steps to even produce a single matching parameter set. For large $\epsilon$ it is not precise. Moreover, this method does not produce a full posterior over the parameter but merely yields point estimates with confident intervals. With Markov-Chain-Monte-Carlo ABC and Sequential ABC improvements over rejection ABC have been proposed. These methods produce samples more efficiently. While this can lead to faster convergence, it does not produce a full posterior over parameters that is conditioned on the actual observation, but rather a sample that is close to it.
+A collective term for methods to solve this inverse problem is Approximate Bayesian Computation (ABC). The most simple approach is rejection ABC \citep{pritchard1999population} where samples produced by a simulator are discarded if notis within a $\epsilon$-ball around the observation of interest. For small values of $\epsilon$ this method may take many steps to even produce a single matching parameter set. For large $\epsilon$ it is not precise. Moreover, this method does not produce a full posterior over the parameter but merely yields point estimates with confident intervals. With Sampling ABC \citep{marjoram2003markov} and Sequential ABC \citep{beaumont2009adaptive,bonassi2015sequential} improvements over rejection ABC have been proposed. These methods produce samples more efficiently. While this can lead to faster convergence, it does not produce a full posterior over parameters that is conditioned on the actual observation, but rather a sample that is close to it.
 
 %In practice these resulting pseudo-distributions are often much wider than the actual posterior. [citation needed]
  
@@ -137,16 +137,6 @@ A collective term for methods to solve this inverse problem is Approximate Bayes
 
 
 
-
-
-Use only the provided maths commands use \texttt{align} for embedded maths (not \texttt{align*}):
-\begin{align}
-    \Fcal, \Rbb, \Nbb
-\end{align}
-The \texttt{diff} command is for proper typesetting in integrals: $\int f(x) \diff x$, not $\int f(x) dx$.
-If you need conditional probabilities, use \texttt{mid} for $A$ conditioned on $B$: $p(A \mid B)$.
-
-Write clearly; pay attention to clarity, simplicity, and -- above all -- correctness of your statements. Look up how to write a scientific document.
 
 \bibliography{references}
 \end{document}

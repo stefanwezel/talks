@@ -116,8 +116,8 @@
 	\item The problem setting %(as this is rather unfamiliar to ML researchers)
 	\item Traditional approaches and their issues
 	\item Using Neural Nets to alleviate them
-	\item A worked example
-	\item Outlook %(and some advertisement)
+	\item Applying SBI
+%	\item Outlook %(and some advertisement)
 \end{itemize}
 \end{frame} 
 
@@ -128,7 +128,7 @@
 
 \begin{frame}
 \frametitle{What and Why?}
-\framesubtitle{An Example}
+\framesubtitle{What is a simulator?}
 \begin{itemize}
 	\item Inverting simulators?% - so first let's find out what a simulator is
 	\item What is a simulator? % in context of this presentation
@@ -140,17 +140,6 @@
 	\item Used by scientists to model empirical observed data
 	\item Used in particle physics, population genetics, epidemiology
 	\item Encode knowledge about systems gathered over centuries
-%	\item Model for theories developed over centuries
-	% For further intuition, let's look at an example (and I'm not gonna talk about epidemiology)
-%	\item Imagine you are a physicist
-%	\item You have also highly sophisticated experiments that can produce observations
-%	\item You have highly sophisticated models, theories that can produce observations like from your experiment, that were developed over centuries
-%	\item But what do we actually care about? How do you perform inference?
-%	\begin{itemize}
-%		\item What were the parameters for your observation
-%%		\item In other words: what were the parameters $\theta$ for observation $x_0$
-%	\end{itemize}
-%	\item You're simulator has no direct answer to this question except for trying everything out
 \end{itemize}
 \end{frame} 
 
@@ -280,68 +269,95 @@
 \framesubtitle{Traditional Approach}
 \begin{itemize}
 	\item Broader term: Approximate Bayesian Computation (ABC)
-	\begin{itemize}
 		\item Rejection ABC
-		\item Sampling ABC (perturb initial parameters)
-		\item Sequential ABC (importance sampling)
+		\begin{itemize}
+				\item Change $\theta$ until something $\epsilon$-close to $x_0$ is produced
+				\item Approximates $p(\theta|\mid\mid x-x_0 \mid\mid < \epsilon)$
+					\item Inefficient for small $\epsilon$
+				\item No actual posterior but only point estimate
+		\end{itemize}
+	\item Some improvements
+	\begin{itemize}
+		\item Sampling ABC (perturb matched parameters) \cite{marjoram2003markov}
+		\item Sequential ABC (simulate sequence of slowly-changing distribution with importance sampling) \cite{beaumont2009adaptive,bonassi2015sequential}
 	\end{itemize}
-		\item But gives only point estimates, not full posterior
-		\item within $\epsilon$
-	\item \cite{papamakarios2016fast} propose to use neural networks to parameterize GMM
+%		\item But gives only point estimates, not full posterior
+	\item Point-estimate to posterior over parameters for $\epsilon$-ball around observation
+%	\item Not actual posterior
+	
+%	Found parameters not from actual posterior but from $\epsilon$-approximation to it
+%		\item within $\epsilon$
 %	\item Some improvements are MCMC ABC and Sequential ABC but they only improve sample efficiency but still produce merely point estimate	
 \end{itemize}
 \end{frame} 
 
 
 
+\begin{frame}
+\frametitle{Simulation-based Inference}
+\framesubtitle{Predicting Parameter Posterior}
+\begin{itemize}
+	\item Papamakarios and Murray \cite{papamakarios2016fast} learn approximation to actual posterior
+	\item Use simulator to create training set
+	\begin{itemize}
+		\item $\lbrace x_j, \theta_j \rbrace_{j \in N}$
+	\end{itemize}
+	\item Train neural network to predict parameters of posterior over $\theta$s 
+\end{itemize}
+\end{frame} 
+
+
 %%%%%%%%% posterior algo
 \begin{frame}
-\frametitle{}
-\framesubtitle{}
+\frametitle{Simulation-based Inference}
+\framesubtitle{Predicting Parameter Posterior}
 \begin{algorithm}[H]
 %	\tcp{Create training set}
 	\color{orange}\For{$n=1..N$}{
-		sample $\theta_n \sim \tilde{p}(\theta)$ \\
+		sample $\theta_n \sim p(\theta)$ \\
 		sample $x_n \sim p(x|\theta_n)$ \\
 	}
 %	\tcp{Find variational posterior over parameters}
-	\color{black}train $q_{\phi}(\theta| x)$ on $\lbrace \theta_n, x_n \rbrace$\\
+	\color{black}train $q_{\phi}(\theta| x)$ on $\lbrace x_n,\theta_n \rbrace$\\
 %	\tcp{Find posterior over parameters for given observation}
-	$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%	$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	sample $\theta \sim q(\theta | x=x_0)$
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
 \end{frame}
 \begin{frame}
-\frametitle{}
-\framesubtitle{}
+\frametitle{Simulation-based Inference}
+\framesubtitle{Predicting Parameter Posterior}
 \begin{algorithm}[H]
 	%	\tcp{Create training set}
 	\For{$n=1..N$}{
-		sample $\theta_n \sim \tilde{p}(\theta)$ \\
+		sample $\theta_n \sim p(\theta)$ \\
 		sample $x_n \sim p(x|\theta_n)$ \\
 	}
 	%	\tcp{Find variational posterior over parameters}
-	\color{orange}train $q_{\phi}(\theta| x)$ on $\lbrace \theta_n, x_n \rbrace\;$\color{black} (More in a second)\\
+	\color{orange}train $q_{\phi}(\theta| x)$ on $\lbrace x_n,\theta_n \rbrace\;$\color{black} (More in a second)\\
 	%	\tcp{Find posterior over parameters for given observation}
-	\color{black}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%	\color{black}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	sample $\theta \sim q(\theta | x=x_0)$
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
 \end{frame} 
 \begin{frame}
-\frametitle{}
-\framesubtitle{}
+\frametitle{Simulation-based Inference}
+\framesubtitle{Predicting Parameter Posterior}
 \begin{algorithm}[H]
 	%	\tcp{Create training set}
 	\For{$n=1..N$}{
-		sample $\theta_n \sim \tilde{p}(\theta)$ \\
+		sample $\theta_n \sim p(\theta)$ \\
 		sample $x_n \sim p(x|\theta_n)$ \\
 	}
 	%	\tcp{Find variational posterior over parameters}
-	train $q_{\phi}(\theta| x)$ on $\lbrace \theta_n, x_n \rbrace$\\
+	\color{black}train $q_{\phi}(\theta| x)$ on $\lbrace x_n,\theta_n \rbrace$\\
 	%	\tcp{Find posterior over parameters for given observation}
-	\color{orange}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%	\color{orange}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+\color{orange}	sample $\theta \sim q(\theta | x=x_0)$
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
@@ -394,23 +410,31 @@
 \includegraphics[width=1\linewidth]{figures/sbivis7.pdf}
 \end{figure}
 \end{frame}
+
+
+
+
 \begin{frame}
-\frametitle{Learning a Prior}
-\framesubtitle{Proposing a New Prior}
+\frametitle{Updating the Prior}
+\framesubtitle{With the Posterior}
+\begin{itemize}
+	\item What if we only care about single observation?
+%	\item Lueckmann et al. propose faster version
+	\item Iteratively replace prior with posterior
+	\item Improves convergence speed
+\end{itemize}
 \begin{figure}
-	\includegraphics[width=1\linewidth]{figures/sbiproposalprior.pdf}
+	\includegraphics[width=.8\linewidth]{figures/sbiproposalprior.pdf}
 \end{figure}
-\end{frame}  
-
-
+\end{frame} 
 
 
 
 %%%%%%%%%%%%% prior algo
 %%%%%%%%%sbi algo
 \begin{frame}
-\frametitle{Learning a Prior}
-\framesubtitle{Starting from an Initial Prior}
+\frametitle{Updating the Prior}
+\framesubtitle{With the Posterior}
 \begin{algorithm}[H]
 %	\tcp{Initial proposal prior}
 	$\color{orange}\tilde{p}(\theta) \leftarrow p(\theta)$\\
@@ -421,54 +445,37 @@
 			sample $x_n \sim p(x|\theta_n)$ \\
 		}
 		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
-		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%sample $\theta \sim q(\theta | x=x_0)$
+$\tilde{p}(\theta) \leftarrow q_{\phi}(\theta|x)$
 	}
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
 \end{frame} 
 \begin{frame}
-\frametitle{Learning a Prior}
-\framesubtitle{Learning a Posterior}
+\frametitle{Updating the Prior}
+\framesubtitle{With the Posterior}
 \begin{algorithm}[H]
-	%	\tcp{Initial proposal prior}
 	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
-	%	\tcp{Create training set}
 	\Repeat{$\tilde{p}(\theta)$ has converged}{
 		\color{orange}\For{$n=1..N$}{
 			sample $\theta_n \sim \tilde{p}(\theta)$ \\
 			sample $x_n \sim p(x|\theta_n)$ \\
 		}
-	\color{black}
+
 		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
-		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+%			\color{black}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+\color{black}$\tilde{p}(\theta) \leftarrow q_{\phi}(\theta|x)$
 	}
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
 \end{frame} 
+
 \begin{frame}
-\frametitle{Learning a Prior}
-\framesubtitle{Learning a Posterior}
-\begin{algorithm}[H]
-	%	\tcp{Initial proposal prior}
-	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
-	%	\tcp{Create training set}
-	\Repeat{$\tilde{p}(\theta)$ has converged}{
-		\For{$n=1..N$}{
-			sample $\theta_n \sim \tilde{p}(\theta)$ \\
-			sample $x_n \sim p(x|\theta_n)$ \\
-		}
-		\color{orange} train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
-		\color{black}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
-	}
-\end{algorithm}
-\vspace{35pt}
-\tiny Pseudocode derived from \cite{papamakarios2016fast}
-\end{frame} 
-\begin{frame}
-\frametitle{Learning a Prior}
-\framesubtitle{Learning a Posterior}
+\frametitle{Updating the Prior}
+\framesubtitle{With the Posterior}
 \begin{algorithm}[H]
 	%	\tcp{Initial proposal prior}
 	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
@@ -479,15 +486,15 @@
 			sample $x_n \sim p(x|\theta_n)$ \\
 		}
 		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
-		\color{orange}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
-	}
+%		\color{orange}$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+\color{orange}$\tilde{p}(\theta) \leftarrow q_{\phi}(\theta|x)$}
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
 \end{frame} 
 \begin{frame}
-\frametitle{Learning a Prior}
-\framesubtitle{Replacing the Initial Prior}
+\frametitle{Updating the Prior}
+\framesubtitle{With the Posterior}
 \begin{algorithm}[H]
 	%	\tcp{Initial proposal prior}
 	$\tilde{p}(\theta) \leftarrow p(\theta)$\\
@@ -498,8 +505,8 @@
 			sample $x_n \sim p(x|\theta_n)$ \\
 		}
 		train $q_{\phi}(\theta|x)$ on $\lbrace x_n, \theta_n \rbrace$\\
-		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
-	}
+%		$\hat{p}(\theta|x=x_0) \leftarrow \frac{p(\theta)}{\tilde{p}(c)}q_{\phi}(\theta| x)$
+	$\tilde{p}(\theta) \leftarrow q_{\phi}(\theta|x)$}
 \end{algorithm}
 \vspace{35pt}
 \tiny Pseudocode derived from \cite{papamakarios2016fast}
@@ -515,42 +522,52 @@
 %	\item learn posterior over parameters by parametrizing GMM with DNN
 %\end{itemize}
 %\end{frame}
-
-\begin{frame}
-\frametitle{Refining SBI}
-\framesubtitle{Lueckman et al}
-\begin{itemize}
-	\item Include importance reweighting in loss
-	\begin{itemize}
-		\item No analytical step necessary
-		\item Enables complex proposal priors
-	\end{itemize}
-	\item posterior over network weights, that can be used to init network in next iteration
-	\item Handle bad simulations to improve convergence (i.e. diverging firing rate)
-	\begin{itemize}
-		\item training classifier to predict if sample fails
-	\end{itemize}
-	\item (Extract Features with RNN)
-\end{itemize}
-\end{frame} 
-
-
-%%%%%%%%%%%% Application to Hodgkin-Huxley
 \begin{frame}
 \frametitle{Applying SBI}
 \framesubtitle{to Hodgkin–Huxley}
 \begin{itemize}
-	\item Hodgkin-Huxley model \cite{hodgkin1952quantitative} describes dynamics of neuron's membrane
+	\item Lueckmann et al. \cite{lueckmann2017flexible} apply SBI to neuro-science setting
+	\begin{itemize}
+		\item Diverging simulations
+		\item Corrupt data
+		\item Summary statistics challenging
+	\end{itemize}
+	\item They propose
+	\begin{itemize}
+			\item Posterior over network weights%, that can be used to init network in next iteration
+%		\item Handle bad simulations to improve convergence (i.e. diverging firing rate)
+%		\begin{itemize}
+			\item Train classifier to predict whether parameters fail
+%		\end{itemize}
+		\item Extract Features with RNN
+	\end{itemize}
+		\item Apply Hodgkin-Huxley model \cite{hodgkin1952quantitative} 
+\begin{itemize}
+	\item Dynamics of neuron's membrane
 	\item Parameters (concentration of sodium, potassium, ...)
 	\item Numerical simulators available (NEURON software \cite{carnevale2006neuron})
 \end{itemize}
-\end{frame}  
-\begin{frame}
-\frametitle{}
-\framesubtitle{}
-\begin{itemize}
-	\item ...
 \end{itemize}
+\end{frame}  
+%\begin{frame}
+%\frametitle{Refining SBI}
+%\framesubtitle{Lueckman et al}
+%\begin{itemize}
+%%	\item Include importance reweighting in loss
+%%	\begin{itemize}
+%%		\item No analytical step necessary
+%%		\item Enables complex proposal priors
+%%	\end{itemize}
+%
+%\end{itemize}
+%\end{frame} 
+
+
+%%%%%%%%%%%% Application to Hodgkin-Huxley
+
+\begin{frame}
+\frametitle{Applying SBI}
+\framesubtitle{Results}
 \begin{figure}
 	\includegraphics[width=.8\linewidth]{figures/sbineuron1.pdf}
 \end{figure}
@@ -558,11 +575,8 @@
 \tiny Figure derived from \cite{lueckmann2017flexible}
 \end{frame}  
 \begin{frame}
-\frametitle{}
-\framesubtitle{}
-\begin{itemize}
-	\item ...
-\end{itemize}
+\frametitle{Applying SBI}
+\framesubtitle{Results}
 \begin{figure}
 	\includegraphics[width=.8\linewidth]{figures/sbineuron2.pdf}
 \end{figure}
@@ -576,7 +590,7 @@
 \frametitle{}
 \framesubtitle{}
 \begin{itemize}
-	\item 
+	\item Example
 \end{itemize}
 \end{frame} 
 
@@ -585,14 +599,15 @@
 \frametitle{How to use SBI?}
 \framesubtitle{Some advertisement}
 \begin{itemize}
-	\item Now that you are pretty excited about SBI and its applications
-	\item mlcolab and mackelab is developing a python (and eventually Julia) library (that I've used earlier)
+%	\item Now that you are pretty excited about SBI and its applications
+	\item mlcolab and mackelab is developing a sbi python library
 	\item If you are interested: try it out and give us your feedback
-	\item link to colab
-	\item link to github
+	\item \url{colab.research.google.com/drive/1L1T45hruoScyu3hN4WkDW6f0De4UemjI?usp=sharing}
+	\item \url{github.com/mackelab/sbi}
+	\item \url{pip} \url{install} \url{sbi}
 		\begin{figure}
 		\flushleft
-		\includegraphics[width=.75\linewidth]{figures/sbipypi.png}
+		\includegraphics[width=.5\linewidth]{figures/sbipypi.png}
 	\end{figure}
 \end{itemize}
 \end{frame} 
@@ -605,15 +620,6 @@
 \end{frame} 
 
 
-
-
-\begin{frame}
-\frametitle{}
-\framesubtitle{}
-\begin{itemize}
-	\item 
-\end{itemize}
-\end{frame} 
 
 
 
