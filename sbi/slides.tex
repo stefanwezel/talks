@@ -138,10 +138,11 @@
 	\begin{itemize}
 		\item Forward, generative model with parameters and stochasticity
 		\item Produces observations
-		\item In context of this talk computer program, but can be electrical circuit (Hodgkin–Huxley model)
+%		\item In context of this talk computer program, but can be electrical circuit (Hodgkin–Huxley model)
+		\item Computer program, electrical circuit, ...
 	\end{itemize}
 	\item Used by scientists to model empirically observed data
-	\item In particle physics, population genetics, epidemiology
+	\item In particle physics, population genetics, epidemiology, ...
 	\item Encode knowledge about systems
 \end{itemize}
 \end{frame} 
@@ -213,15 +214,15 @@
 	\begin{itemize}
 		\item Implicitly defines $p(x,z\mid\theta)$ %(it yields samples from this distribution)
 	\end{itemize}
-	\item Given (real) observation $x_0$, we are interested in parameters that produced it
+	\item Given (real) observation $x_0$, we are interested in parameters $\theta$ that produced it
 %	\begin{align}\\
 	\begin{align}
 p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z\mid\theta)\diff z}^{\text{intractable}} p(\theta)}{\int p(x\mid\theta)p(\theta) \diff \theta}
 \end{align}
-\item Typical problem setting of scientists across domains
+\item Typical problem setting of sciences% across domains
 \begin{itemize}
 			\item Sophisticated forward model that encapsulates prior knowledge
-	\item Inference means: What were parameters that produced observation?
+	\item Inference: What are parameters $\theta$ that produce observation $x_0$?
 \end{itemize}
 \item To find $\theta$, invert simulator
 %	p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z\mid\theta)dz}^{intractable} p(\theta)}{\underbrace{\int p(x\mid\theta)p(\theta)\theta}_{intractable}},
@@ -287,16 +288,19 @@ p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\i
 		\begin{itemize}
 				\item Change $\theta$ until something $\epsilon$-close to $x_0$ is produced
 				\item Inefficient for small $\epsilon$
-				\item No actual posterior but only point estimate
-				\item Approximates $p(\theta\mid\mid\mid x-x_0 \mid\mid < \epsilon)$
+				\item No actual posterior but only point estimates
+				\item Approximates $p(\theta\mid \lVert x-x_0 \rVert < \epsilon)$
 		\end{itemize}
-	\item Some improvements
+	\item Some improvements \cite{marjoram2003markov, beaumont2009adaptive,bonassi2015sequential}
 	\begin{itemize}
-		\item Sampling ABC (perturb matched parameters) \cite{marjoram2003markov}
-		\item Sequential ABC (importance sampling) \cite{beaumont2009adaptive,bonassi2015sequential}
+			\item Reduce parameter space
+			\item Faster
+%		\item Sampling ABC (perturb matched parameters) \cite{marjoram2003markov}
+%		\item Sequential ABC (importance sampling) \cite{beaumont2009adaptive,bonassi2015sequential}
 	\end{itemize}
 %		\item But gives only point estimates, not full posterior
-	\item Point-estimate to posterior over parameters for $\epsilon$-ball around observation
+	\item Point-estimate to posterior over parameters
+	\item for $\epsilon$-ball around observation
 %	\item Not actual posterior
 	
 %	Found parameters not from actual posterior but from $\epsilon$-approximation to it
@@ -316,7 +320,12 @@ p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\i
 	\begin{itemize}
 		\item $\lbrace x_j, \theta_j \rbrace_{j \in N}$
 	\end{itemize}
-	\item Train neural network to predict parameters of posterior over $\theta$s 
+	\item Train Bayesian neural network $\phi$ to predict parameters of posterior over $\theta$s
+	\begin{itemize}
+		\item Each weight is defined through mean $m$ and log variance $S$
+		\item Posterior over network weights % Are used to define posterior over ...
+		\item $\phi = \mathcal{N}(\phi_m, exp^{\frac{1}{2}\phi_S})$ % For example Gaussian
+	\end{itemize} 
 \end{itemize}
 \end{frame} 
 
@@ -338,7 +347,7 @@ p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\i
 %	sample $\theta \sim q(\theta \mid x=x_0)$
 %\end{algorithm}
 %\vspace{35pt}
-%\tiny Pseudocode derived from \cite{papamakarios2016fast}
+%\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 %\end{frame}
 %\begin{frame}
 %\frametitle{Simulation-based Inference}
@@ -356,7 +365,7 @@ p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\i
 %	sample $\theta \sim q(\theta \mid x=x_0)$
 %\end{algorithm}
 %\vspace{35pt}
-%\tiny Pseudocode derived from \cite{papamakarios2016fast}
+%\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 %\end{frame} 
 %\begin{frame}
 %\frametitle{Simulation-based Inference}
@@ -374,7 +383,7 @@ p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\i
 %\color{orange}	sample $\theta \sim q(\theta \mid x=x_0)$
 %\end{algorithm}
 %\vspace{35pt}
-%\tiny Pseudocode derived from \cite{papamakarios2016fast}
+%\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 %\end{frame} 
 
 
@@ -416,7 +425,14 @@ p(\theta\mid x=x_0) = \frac{p(x\mid\theta)p(\theta)}{p(x)} = \frac{\overbrace{\i
 \begin{figure}
 \includegraphics[width=1\linewidth]{figures/sbi6.pdf}
 \end{figure}
+\end{frame}\begin{frame}
+\frametitle{Learning a Posterior}
+\framesubtitle{from Simulations}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/sbi7.pdf}
+\end{figure}
 \end{frame}
+
 
 
 
@@ -458,7 +474,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 	}
 \end{algorithm}
 \vspace{35pt}
-\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 \end{frame} 
 \begin{frame}
 \frametitle{Updating the Prior}
@@ -477,7 +493,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 	}
 \end{algorithm}
 \vspace{35pt}
-\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 \end{frame} 
 
 \begin{frame}
@@ -497,7 +513,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 \color{orange}$\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$}
 \end{algorithm}
 \vspace{35pt}
-\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 \end{frame} 
 \begin{frame}
 \frametitle{Updating the Prior}
@@ -516,7 +532,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 	$\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$}
 \end{algorithm}
 \vspace{35pt}
-\tiny Pseudocode derived from \cite{papamakarios2016fast}
+\tiny Pseudocode derived from Papamakarios and Murray \cite{papamakarios2016fast}
 \end{frame} 
 
 
@@ -535,7 +551,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 \begin{itemize}
 	\item Lueckmann et al. \cite{lueckmann2017flexible} apply SBI to neuroscience setting
 	\begin{itemize}
-		\item Diverging simulations
+		\item Nonsensical observations% (Diverging simulations, ...)
 %		\item Corrupt data
 		\item Summary statistics challenging
 	\end{itemize}
@@ -546,14 +562,13 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 %		\begin{itemize}
 %		\end{itemize}
 		\item Extract features with RNN
-					\item Posterior over network weights%, that can be used to init network in next iteration
+		\item Posterior over network weights %, that can be used to init network in next iteration
+		\item Use distribution over weights from previous rounds as prior in regularization term
+		\begin{itemize}
+			\item $\mathcal{L}_t := - \frac{1}{N} \sum_n\mathbb{E} \left[ log\;q_{\phi}(\theta \mid x)\right] +  \frac{1}{N}\mathit{D}_{KL}(q^t(\phi) \mid\mid \color{orange}q^{t-1}(\phi)\color{black})$
+			\item Implicitly store data from previous rounds
+		\end{itemize}
 	\end{itemize}
-		\item Apply Hodgkin-Huxley model \cite{hodgkin1952quantitative} 
-\begin{itemize}
-	\item Numerical simulators available (NEURON software \cite{carnevale2006neuron})
-	\item Dynamics of neuron's membrane
-	\item Parameters (concentration of sodium, potassium, ...)
-\end{itemize}
 \end{itemize}
 \end{frame}  
 %\begin{frame}
@@ -571,6 +586,23 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 
 
 %%%%%%%%%%%% Application to Hodgkin-Huxley
+\begin{frame}
+\frametitle{Applying SBI}
+\framesubtitle{Hodgkin-Huxley model}
+\begin{itemize}	
+	\item Apply to Hodgkin-Huxley model \cite{hodgkin1952quantitative} 
+	\begin{itemize}
+		\item Dynamics of neuron's membrane
+		\item Parameters (concentration of sodium, potassium, ...)
+		\item Produces spikes
+		\item Numerical simulators available (NEURON software \cite{carnevale2006neuron})
+	\end{itemize}
+\end{itemize}
+\begin{figure}
+	\includegraphics[width=.6\linewidth]{figures/hodkin_huxley_img.pdf}
+\end{figure}
+\tiny Figure derived from Lueckmann et al. \cite{lueckmann2017flexible} and Krishnavedala 
+\end{frame}  
 
 \begin{frame}
 \frametitle{Applying SBI}
@@ -579,7 +611,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 	\includegraphics[width=.8\linewidth]{figures/sbineuron1.pdf}
 \end{figure}
 \vspace{50pt}
-\tiny Figure derived from \cite{lueckmann2017flexible}
+\tiny Figure derived from Lueckmann et al. \cite{lueckmann2017flexible}
 \end{frame}  
 \begin{frame}
 \frametitle{Applying SBI}
@@ -588,7 +620,7 @@ $\tilde{p}(\theta) \leftarrow q_{\phi}(\theta\mid x)$
 	\includegraphics[width=.8\linewidth]{figures/sbineuron2.pdf}
 \end{figure}
 \vspace{50pt}
-\tiny Figure derived from \cite{lueckmann2017flexible}
+\tiny Figure derived from Lueckmann et al. \cite{lueckmann2017flexible}
 \end{frame}  
 
 
