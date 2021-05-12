@@ -98,18 +98,18 @@
 \maketitle
 
 \begin{abstract}\vskip-1.5em \noindent
-Simulators are used across different scientific domains where they serve as valuable tools to encode empirical knowledge about a system of interest. Inference in this setting often means finding parameters of the simulator for a given, real-world observation, which typically cannot be computed analytically.\citet{papamakarios2016fast} and \citet{lueckmann2017flexible} propose to learn a posterior over a simulators parameters by using Bayesian neural density estimators. Here, we give an overview of their work and SBI in general.
+Simulators are used across different scientific domains where they serve as valuable tools to encode empirical knowledge about a system of interest. Inference in this setting often means finding parameters of the simulator for a given, real-world observation, which typically cannot be computed analytically. \citet{papamakarios2016fast} and \citet{lueckmann2017flexible} propose to learn a posterior over a simulator's parameters by using Bayesian neural density estimators. Here, we give an overview of their work and introduce the idea of SBI.
 \end{abstract}
 
 
 \section*{Problem Setting and Related Work}
-Scientific fields, such as population genetics, particle physics, epidemiology, astrophysics among others make use of sophisticated simulators to model observed systems \citep{brehmer2020simulation, de2020simulation, delaunoy2020lightning,cranmer2020frontier, pritchard1999population}. These simulators serve as forward models with strong inductive biases, encoding prior knowledge. Performing inference in this setting, however, would require a finding a posterior over parameters $\theta$ for a given observation $x_0$. This can be stated in closed form as 
+Scientific fields, such as population genetics, particle physics, epidemiology, astrophysics among others make use of sophisticated simulators to model observed systems \citep{brehmer2020simulation, de2020simulation, delaunoy2020lightning,cranmer2020frontier, pritchard1999population}. These simulators serve as forward models with strong inductive biases, encoding prior knowledge. Performing inference in this setting, however, would require finding a posterior over parameters $\theta$ for a given observation $x_0$. This can be stated in closed form as 
 \begin{align}
-	p(\theta\mid x=x_0) = \frac{p(x\mid \theta)p(\theta)}{p(x)} = \frac{\overbrace{\int p(x,z\mid \theta)\diff z}^{\text{intractable}} p(\theta)}{\int p(x\mid \theta)p(\theta) \diff \theta},
+	p(\theta\mid x=x_0) = \frac{p(x\mid \theta)p(\theta)}{p(x)} = \frac{\int p(x,z\mid \theta)\diff z p(\theta)}{\int p(x\mid \theta)p(\theta) \diff \theta},
 \end{align}
-where $z$ is a nuisance parameter and $x$ is observation data from experiments or simulations. This term typically cannot be computed analytically.\\
-A collective term for methods that aim to solve this inverse problem is Approximate Bayesian Computation (ABC). The most simple approach is rejection ABC \citep{pritchard1999population} where samples produced by a simulator are discarded if not within an $\epsilon$-ball around an observation $x_0$. For small values of $\epsilon$ this method is inefficient. For large $\epsilon$ it is not precise \citep{papamakarios2016fast}. Moreover, this method does not produce a full posterior over the parameter but merely yields point estimates that can be used to approximate a posterior. Note that this posterior is then conditioned on an $\epsilon$-ball $\mid\mid x-x_0 \mid\mid < \epsilon$ around the observation rather than the actual observation $x_0$.\\
-With Sampling ABC \citep{marjoram2003markov} and Sequential ABC \citep{beaumont2009adaptive,bonassi2015sequential} improvements over rejection ABC have been proposed. While these methods produce samples more efficiently, they suffer from the latter problem as well, as they only produce point estimates for parameters that produce something in $\epsilon$-range of $x_0$.
+where $z$ is a nuisance parameter and $x$ observations. This term typically cannot be computed analytically.\\
+A collective term for methods that aim to solve this inverse problem is Approximate Bayesian Computation (ABC). The most simple approach is rejection ABC \citep{pritchard1999population} where samples produced by a simulator are discarded if not within an $\epsilon$-ball around an observation $x_0$. For small values of $\epsilon$ this method is inefficient. For large $\epsilon$ it is not precise \citep{papamakarios2016fast}. Moreover, this method does not produce a full posterior over $\theta$ but merely yields point estimates that can be used to approximate a posterior. Note that this posterior is then conditioned on an $\epsilon$-ball $\mid\mid x-x_0 \mid\mid < \epsilon$ around the observation rather than the actual observation $x_0$.\\
+With Sampling ABC \citep{marjoram2003markov} and Sequential ABC \citep{beaumont2009adaptive,bonassi2015sequential} improvements over rejection ABC have been proposed. While these methods produce samples more efficiently, they suffer from the latter problem as well. They only produce point estimates for parameters that produce something in $\epsilon$-range of $x_0$.
 
  
 
@@ -119,18 +119,18 @@ With Sampling ABC \citep{marjoram2003markov} and Sequential ABC \citep{beaumont2
 \begin{figure}
 	\centering
 	\includegraphics[width=.9\linewidth]{figures/sbi0.pdf}
-	\caption{Given samples by the simulator, Multilayer perceptrons (MLP) are trained to parameterize a distribution over parameters generating the sample. A training signal is created by sampling from this distribution and comparing the sample to the actual parameters which are known.}
+	\caption{Given samples by the simulator, $\phi$ is trained to parameterize a distribution over parameters generating the sample. A training signal is created by estimating an expectation of the posterior and adding a regularization term.}
 	\label{fig:sbiloop}
 \end{figure} 
-\citet{papamakarios2016fast} build on recent advances in deep learning and propose to learn a posterior over parameters directly from samples produced by a simulator. They parameterize a Gaussian Mixture Model (GMM) with a Bayesian Neural Network (BNN) with parameters $\phi = \mathcal{N}(\phi_m, exp^{\frac{1}{2}\phi_S})$ with mean $m$ and Covariance $S$. They perform $n$ simulations and store pairs of observations $x_i$ and corresponding parameters $\theta_i$, sampled from a proposal prior $\tilde{p}(\theta)$ to obtain the  training set $\lbrace(x_i,\theta_i)\rbrace_{i \in n}$. 
+\citet{papamakarios2016fast} build on recent advances in deep learning and propose to learn a posterior over parameters directly from samples produced by a simulator. They parameterize a Gaussian Mixture Model (GMM) with a Bayesian Neural Network (BNN) with parameters $\phi = \mathcal{N}(\phi_m, exp^{\frac{1}{2}\phi_S})$ with mean $m$ and covariance $S$. They perform $n$ simulations and store pairs of observations $x_i$ and corresponding parameters $\theta_i$, sampled from a proposal prior $\tilde{p}(\theta)$ to obtain the  training set $\lbrace(x_i,\theta_i)\rbrace_{i \in n}$. 
 %The BNN $\phi$ is trained to predict a GMM
 %\begin{align}
 %	q_{\phi}(\theta\mid x) = \sum_k \alpha_k \mathcal{N}(\theta\mid m_k, S_k) = \sum_k \phi_1(x)_k \mathcal{N}(\theta\mid \phi_2(x)_k, diag(\phi_3(x))_k)
 %\end{align}
 %, where $k$ is the number of components, $\alpha$ is the mixing coefficient, $m$ the mean and $S$ the covariance matrix of a Gaussian, and $\phi_{\lbrace 1,2,3 \rbrace}$ are distinct (but not necessarily mutually exclusive) subsets of $\phi$.\\
-To find a suiting $\phi$, $x_{0,...,n}$ are passed to it. Each respective output is used to parameterize a GMM $q_{\phi}(\theta\mid x) = \sum_k \alpha_k \mathcal{N}(\theta\mid m_k, S_k)$ with $k$ components, mixing coefficient $\alpha_k$, mean $m_k$, and covariance $S_k$. \\
-An expectation $\frac{1}{N} \sum_n\mathbb{E} \left[ log\;q_{\phi}(\theta \mid x)\right]$ is estimated empirically through sampling. An regularization term $\frac{1}{N}\mathit{D}_{KL}(q^t(\phi) \mid\mid p(\phi))$, where $p(\phi)$ is a isotropic, zero-centered prior over weights is computed analytically. These terms form a loss $\mathcal{L}$ which returns a scalar value that can be backpropagated so that the first term is maximized and the latter minimized.\\
-This completes an 'inner' training loop. \citet{papamakarios2016fast} further propose an 'outer' training loop, where once $\phi$ is fitted to $n$ observations, $\frac{p(\theta)}{\tilde{p}(\theta)}q(\theta \mid  x=x_0)$ replaces the proposal prior for a specific observation of interest. This, however, requires $\tilde{p}(\theta)$ to be of a form so that the importance weights $\frac{p(\theta)}{\tilde{p}(\theta)}$ can be computed analytically.
+To find a suiting $\phi$, $x_{0,...,n}$ are passed to it. Each respective output is used to parameterize a GMM $q_{\phi}(\theta\mid x) = \sum_k \alpha_k \mathcal{N}(\theta\mid m_k, S_k)$ with $k$ components, mixing coefficient $\alpha_k$, mean $m_k$, and covariance $S_k$.\\
+An expectation $\frac{1}{N} \sum_n\mathbb{E} \left[ log\;q_{\phi}(\theta \mid x)\right]$ is estimated empirically through sampling. A regularization term $\frac{1}{N}\mathit{D}_{KL}(q^t(\phi) \mid\mid p(\phi))$, where $p(\phi)$ is an isotropic, zero-centered Gaussian distribution over the weights is computed analytically. These terms form a scalar loss $\mathcal{L}$ that can be backpropagated so that the first term is maximized and the latter minimized.\\
+This completes an 'inner' training loop, visualized in Figure~\ref{fig:sbiloop}. \citet{papamakarios2016fast} further propose an 'outer' training loop, where once $\phi$ is fitted to $n$ observations, $\frac{p(\theta)}{\tilde{p}(\theta)}q(\theta \mid  x=x_0)$ replaces the proposal prior for a specific observation of interest. This, however, requires $\tilde{p}(\theta)$ to be of a form so that the importance weights $\frac{p(\theta)}{\tilde{p}(\theta)}$ can be computed analytically.
 
 
 
@@ -154,18 +154,14 @@ This completes an 'inner' training loop. \citet{papamakarios2016fast} further pr
 
 
 \section*{Application in Neuroscience}
-\citet{lueckmann2017flexible} propose further enhancements to \citet{papamakarios2016fast}'s method. They apply SBI to forward models used in neuro-science, such as the Hodgkin-Huxley model \cite{hodgkin1952quantitative}. Simulators in this field frequently produce nonsensical observations \citep{lueckmann2017flexible}. To alleviate this, \citet{lueckmann2017flexible} additionally train a classifier that learns to detect parameter sets that will produce such 'bad' simulations, which are then discarded. They state that finding useful summary statistics of the often high-dimensional data is challenging. By using a  recurrent neural network to extract features from observations, they find an informative, learned summary statistic. Moreover, \citet{lueckmann2017flexible} formulate a loss such that it includes the importance weighting. This allows the use of more complex proposal priors, as they don't need to be computed analytically in their method. In the regularization term of their loss, they replace the isotropic, zero-centered Gaussian as prior in the regularization term through the posterior over weights from previous round to implicitly store information.\\
-\citet{lueckmann2017flexible} evaluate their method for different models and find that it reliably finds matching parameter settings for synthetic data. On in-vitro experiments they find parameter settings that match empirical data accurately.
-
-
-
+\citet{lueckmann2017flexible} propose further enhancements to \citet{papamakarios2016fast}'s method. They apply the introduced method to forward models used in neuroscience, such as the Hodgkin-Huxley model \cite{hodgkin1952quantitative}. Simulators in this field frequently produce nonsensical observations \citep{lueckmann2017flexible}. To alleviate this, \citet{lueckmann2017flexible} additionally train a classifier that learns to detect parameter sets that will produce 'bad' simulations, which are then discarded. They state that finding useful summary statistics of the often high-dimensional data is challenging. By using a  recurrent neural network to extract features from observations, they find an informative, learned summary statistic. Moreover, \citet{lueckmann2017flexible} formulate a loss that includes the importance weighting. This allows the use of more complex proposal priors, as they do not need to be computed analytically in their method. In the regularization term of their loss, they replace the isotropic, zero-centered Gaussian as prior with the posterior over weights from the previous round. This implicitly captures information learned in previous rounds.\\
+\citet{lueckmann2017flexible} evaluate their method for different models and find that it reliably finds matching parameter settings for synthetic data. On in-vitro experiments, they find parameter settings that match empirical data accurately.
 
 
 
 
 \section*{Conclusion}
-Simulators are an important tool of reasarch scientiest across domains. 
-\citet{papamakarios2016fast} and \citet{lueckmann2017flexible} leverage recent advances in deep learning and variational inference to efficiently perform simulation-based inference in challenging settings. An afterthought of our summary is that SBI methods can be applied in different settings but may require adaptions to suit the task.
+Simulators are an important tool of reasarchers across domains. \citet{papamakarios2016fast} and \citet{lueckmann2017flexible} leverage recent advances in deep learning and variational inference to efficiently perform simulation-based inference in challenging settings. An afterthought of our summary is that SBI methods can be applied in different settings but may require adaptions to suit the task.
 
 
 %
