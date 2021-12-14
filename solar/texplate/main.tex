@@ -7,6 +7,7 @@
 \usepackage{lipsum}
 \usepackage{amsmath}
 \usepackage{multirow}
+\usepackage{siunitx}
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 
@@ -41,7 +42,7 @@
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-%\nipsfinalcopy % for line numbers
+\nipsfinalcopy % for line numbers
 
 \begin{document}
 %\setlength{\figwidth}{.8\textwidth}
@@ -49,8 +50,8 @@
 \maketitle
 
 \begin{abstract}
-	Roofs make up an approximate area of ... $m^2$. Much of this area could be used to install solar panels and help feed demand for renewably generated energy. Solar panels are a cost effective solution for generating energy in a carbon-free manner. However, not every roof is suitable for installing solar panel. Architecture and location heavily effect the viability of such systems.
-	Predicting this solar potential of a roof is traditionally a labour intensive process requiring on site measurements. Automating this process and scale it up is a difficult challenge. Here, we will introduce a solution proposed by \cite{de2021predicting}, review it, and compare it to other approaches.
+	Solar panels are a cost effective solution for generating energy in a carbon-free manner. However, not every roof is suitable for installing solar panel. Architecture and location heavily effect the viability of such systems.
+	Predicting this solar potential of a roof is traditionally a labour intensive process requiring on site measurements. Automating this process and scale it up is a difficult challenge. Here, we will introduce a solution proposed by \citet{de2021predicting}, review it, and compare it to other approaches.
 \end{abstract}
 
 \section*{Introduction}
@@ -62,8 +63,9 @@
 %- Cons of method: evaluation is difficult
 %- other ways to address the problem with ml: -> end2end?
 %- core message: incorporating knowledge and ml in a complex system to solve a real world problem
-
-\citet{de2021predicting}
+In the European Union alone, roofs make up an approximate area of \SI{7935}{\kilo\metre\squared}~\cite{bodis2019high}. Much of this area could be used to install solar panels and help feed demand for renewably generated energy. Predicting how much energy a roof could produce once panels are installed. This is referred to as a roofs solar potential and is a crucial task. Locally, to determine the viability and economic efficiency of solar panels. Globally, it could also help producing a guess of how much solar energy could contribute to overall energy production capabilities.\\
+Traditionally, a roofs solar potential is estimated by performing measurements of roof geometry, considering its geographic location, and architecture of surrounding buildings or vegetation \cite{freitas2015modelling}. While more recently, geographical information systems (GIS) play an increasingly large role in guiding solar development, much of the process is still labour and time consuming. Thus, solar potential estimation on a large scale remains challenging.\\
+Machine learning offers promising capabilities to increase the magnitude on which solar potential estimation can be performed. However, due to limited and complex data it is not a trivial problem. A solution is proposed by \citet{de2021predicting}. They incorporate structured data and existing knowledge as inductive bias to a method that combines machine learning and analytical methods.
 
 
 
@@ -79,7 +81,7 @@
 
 
 \newpage
-\section*{References}
+
 \bibliographystyle{unsrtnat}
 \bibliography{refs}
 
