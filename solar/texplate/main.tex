@@ -67,6 +67,7 @@
 %- Cons of method: evaluation is difficult
 %- other ways to address the problem with ml: -> end2end?
 %- core message: incorporating knowledge and ml in a complex system to solve a real world problem
+%TODO explain technical solar potential versus normal solar potential
 In the European Union (EU) alone, rooftops make up an estimate area of \SI{7935}{\kilo\metre\squared}~\cite{bodis2019high}. Much of this area could be used to install solar panels and help feed demand for renewably generated energy. Predicting how much energy a roof could produce once panels are installed. This is referred to as a roofs solar potential and is a crucial task. Locally, to determine the viability and economic efficiency of solar panels. Globally, it could also help producing a guess of how much solar energy could contribute to overall energy production capabilities.\\
 Traditionally, a roofs solar potential is estimated by performing measurements of roof geometry, considering its geographic location, and architecture of surrounding buildings or vegetation \cite{freitas2015modelling}. While more recently, geographic information systems (GIS) play an increasingly large role in guiding solar development, much of the process is still labour and time consuming. Thus, solar potential estimation on a large scale remains challenging.\\
 Machine learning offers promising capabilities to increase the magnitude on which solar potential estimation can be performed. However, due to limited and complex data it is not a trivial problem. A solution is proposed by \citet{de2021predicting}. They incorporate structured data and existing knowledge as inductive bias to a method that combines machine learning and analytical methods.
@@ -92,7 +93,7 @@ Several other approaches leveraging sophisticated deep learning methods are prop
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{../figures/fig_1.pdf}
-	\caption{}
+	\caption{The figure is taken from \citet{de2021predicting}}
 	\label{fig:arch}
 \end{figure}
 With the challenges of large-scale solar potential for individual rooftops established and several related proposed methods established, we will use this section to explain the method proposed by \citet*{de2021predicting} in detail. The major steps are illustrated in \figref{fig:arch}.\\
@@ -100,10 +101,15 @@ With the challenges of large-scale solar potential for individual rooftops estab
 Given satellite imagery, \citet{de2021predicting} first identify suitable roof spaces. This includes finding roof and more precisely, sections of roofs where solar panels can be installed. This means omitting ridges or occupied roof spaces. Therefore, they segment into the categories background, sections, ridges, and roof objects. They use two different models to achieve this. \cite{de2021predicting}\\
 To extract features from raw images, they use a ResNet backbone \cite{he2016deep} with 34 residual blocks.\\
 Inspired by U-Net \cite{ronneberger2015u} they store features along the layers during encoding the input. When decoding the features they progressively concatenate these kept features with upsampled ones that match in dimension. This ensures that information from input images is not lost and the model rather has to learn a difference to the input image as opposed to a whole new image. Satellite imagery is particularly rich in structural information, such as sharp and straight outlines of roofs or roads.\\
+To train the model, \citet{de2021predicting} use labels obtained from GIS data and manually annotated images from the French cities of Bordeaux, Brest, Montpellier, and Strasbourg.
+%\citet{de2021predicting} obtain labels from 3d models
 
 
+\subsection*{Geometry}
+Once they obtain the segmentation maps where roof space suitable for solar panel installation is denoted as specific class, \citet{de2021predicting} regress on pitch and azimuth of such areas. This gives 3d information about the roofs geometry.\\
+They pitch of a roof segment refers to its slope. This plays a crucial role for solar potential since roofs that are either completely flat or vertical might be less beneficial than a moderately sloped one. \citet{de2021predicting} regress on the normalized pitch. For this they use a simple linear regression algorithm \cite{gross2003linear}. The training data is obtained again from 3d models of the five French cities. Additionally,\citet{de2021predicting} use a random forest algorithm \cite{belgiu2016random} to predict roof inclination where features, such as roof type, material, and shape or the height of the building are known.\\
+The azimuth refers to the orientation of the roof from a bird's view perspective. This is obviously important as i.e. on the northern hemisphere south facing segments might receive more solar radiation than otherwise oriented ones.\\ \citet{de2021predicting} compute it analytically. For this, they make the simplifying assumption that roof segment orientations can be assigned on of four classes which are the elements of a cyclic \SI{90}{\degree} rotation group. This allows them to treat it as a classification problem to which the solution can be obtained in closed form.
 
-\subsection*{Geometry Regression}
 \subsection*{Panel Arrangement}
 \subsection*{(Ir)radiance Estimation}
 \subsection*{Solar potential prediction}
