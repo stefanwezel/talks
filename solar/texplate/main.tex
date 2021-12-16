@@ -5,6 +5,7 @@
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{graphicx}
 \usepackage{lipsum}
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{sidecap}
 \usepackage{multirow}
@@ -24,6 +25,8 @@
 \usepackage{color,soul}
 \usepackage{multirow}
 \usepackage{mathtools}
+
+\newcommand{\figref}[1]{\figurename~\ref{#1}}
 \usepgfplotslibrary{groupplots}
 
 
@@ -86,14 +89,24 @@ Several other approaches leveraging sophisticated deep learning methods are prop
 
 
 \section*{Method}
-
-
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{../figures/fig_1.pdf}
+	\caption{}
+	\label{fig:arch}
 \end{figure}
+With the challenges of large-scale solar potential for individual rooftops established and several related proposed methods established, we will use this section to explain the method proposed by \citet*{de2021predicting} in detail. The major steps are illustrated in \figref{fig:arch}.\\
+\subsection*{Segmentation}
+Given satellite imagery, \citet{de2021predicting} first identify suitable roof spaces. This includes finding roof and more precisely, sections of roofs where solar panels can be installed. This means omitting ridges or occupied roof spaces. Therefore, they segment into the categories background, sections, ridges, and roof objects. They use two different models to achieve this. \cite{de2021predicting}\\
+To extract features from raw images, they use a ResNet backbone \cite{he2016deep} with 34 residual blocks.\\
+Inspired by U-Net \cite{ronneberger2015u} they store features along the layers during encoding the input. When decoding the features they progressively concatenate these kept features with upsampled ones that match in dimension. This ensures that information from input images is not lost and the model rather has to learn a difference to the input image as opposed to a whole new image. Satellite imagery is particularly rich in structural information, such as sharp and straight outlines of roofs or roads.\\
 
 
+
+\subsection*{Geometry Regression}
+\subsection*{Panel Arrangement}
+\subsection*{(Ir)radiance Estimation}
+\subsection*{Solar potential prediction}
 
 
 
