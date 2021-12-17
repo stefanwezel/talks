@@ -117,11 +117,13 @@ Based on the predicted roof section that is suitable for solar panel installatio
 
 \subsection*{Shading}
 A roofs shading depends on factors such as surrounding vegetation and buildings, its location and geometry, and meteorological factors. To compute the shading, a roof segment is objected to, \citet{de2021predicting} use the SkyViewFactor software \cite{zakvsek2011sky} to obtain data on how much light could reach the panels theoretically. This information is refined further using the R-package shadow \cite{dorman2019shadow}.\\
-Additionally, \citet{de2021predicting} use digital elevation models and projected shadow computations using a QGIS extension \cite{qgis,qgisshadows} to produce a second shading mask per panel. \citet{de2021predicting} then combine the two shading masks for a final shading prediction.
+Additionally, \citet{de2021predicting} use digital elevation models and projected shadow computations using a QGIS extension \cite{qgis,qgisshadows} to produce a second shading mask per panel. \citet{de2021predicting} then combine the two shading masks for a final shading prediction.\\
+Using the shading information, they predict photovoltaic power \si{PV_{\si{DC}}}. This is converted to \si{PV_{\si{AC}}} considering losses that might occur in coverters or other system components. This value summed up over the span of a year forms \si{PV_{out}}.
 
 
 
 \subsection*{Solar potential prediction}
+Finally, \citet{de2021predicting} compute solar potential based on estimated number of solar panels and shading data.
 
 
 
