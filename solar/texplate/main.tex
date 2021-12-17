@@ -111,13 +111,25 @@ They pitch of a roof segment refers to its slope. This plays a crucial role for 
 The azimuth refers to the orientation of the roof from a bird's view perspective. This is obviously important as i.e. on the northern hemisphere south facing segments might receive more solar radiation than otherwise oriented ones.\\ \citet{de2021predicting} compute it analytically. For this, they make the simplifying assumption that roof segment orientations can be assigned on of four classes which are the elements of a cyclic \SI{90}{\degree} rotation group. This allows them to treat it as a classification problem to which the solution can be obtained in closed form.
 
 \subsection*{Panel Arrangement}
-\subsection*{(Ir)radiance Estimation}
+Based on the predicted roof section that is suitable for solar panel installation and its predicted geometry, \citet{de2021predicting} compute the maximum number of pannels that can be installed. Given the simple rectangular shape of solar panels, they are able apply a greedy algorithm to the problem. The algorithm's primary aim is to fit as many panels of a fixed size to a roof segment. It accounts for objects occupying rooftop space, mandatory distances between panels and to roof edges, and overlapping.
+
+
+
+\subsection*{Shading}
+A roofs shading depends on factors such as surrounding vegetation and buildings, its location and geometry, and meteorological factors. To compute the shading, a roof segment is objected to, \citet{de2021predicting} use the SkyViewFactor software \cite{zakvsek2011sky} to obtain data on how much light could reach the panels theoretically. This information is refined further using the R-package shadow \cite{dorman2019shadow}.\\
+Additionally, \citet{de2021predicting} use digital elevation models and projected shadow computations using a QGIS extension \cite{qgis,qgisshadows} to produce a second shading mask per panel. \citet{de2021predicting} then combine the two shading masks for a final shading prediction.
+
+
+
 \subsection*{Solar potential prediction}
 
 
 
 
 \section*{Discussion}
+- no real evaluation possible
+- not end2end trainable
+- not very scalable
 
 
 \section*{Conclusion}
