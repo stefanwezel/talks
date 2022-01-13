@@ -1,0 +1,73 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{neurips,times}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{sidecap}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amssymb,amsmath,bm}
+\usepackage{color,soul}
+\usepackage{multirow}
+\usepackage{mathtools}
+
+\newcommand{\figref}[1]{\figurename~\ref{#1}}
+\usepgfplotslibrary{groupplots}
+
+
+\def\figwidth{.5\linewidth}
+\def\figheight{.15\textheight}
+%\newlength{\figwidth}{\mywidth}
+%\newlength{\figheight}{.2\textheight}
+
+
+\usepackage[numbers]{natbib}
+\setlength{\bibsep}{0.0pt}
+
+\title{Review on Report by Luca \vspace{0.5cm}}
+\author{Stefan Wezel \\ stefan.wezel@student.uni-tuebingen.de}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\nipsfinalcopy % for line numbers
+
+\begin{document}
+%\setlength{\figwidth}{.8\textwidth}
+%\setlength{\figheight}{.2\textheight}
+\maketitle
+
+The authors give an introduction to the methods of short-term solar power prediction. The explain a method, introduced by \citet{lawati2020short} in detail and reflect on it critically, highlighting shortcomings and merits. The abstract outlines this nicely but goes into uncommon detail, already introducing technical details of the topic by \citet{lawati2020short}.\\
+The Introduction is well-structured and written nicely. The need for accurate and uncertainty-adjusted models for the problem setting of short-term solar power predictions is stated clearly and described in sound reasoning. The authors also use this section to give a broad overview of the field, which helps put the methods introduced in the following sections into context. The introduction helpfully closes by outlining the structure of the remaining paper.\\
+The related work section introduces different approaches for solving the solar power prediction problem, loosely in historical order. Again, it is well structured and mentions approaches from a wide range of scientific and engineering fields. When introducing the Long short-term memory (LSTM), they mention the LSTM's memory unit. Here, it is unclear what this refers to. We assume that it refers to an LSTM's cell state, which could be thought of as the 'memory' but is a more common term.\\
+The latter part of this section greatly points out the advantages and the importance of a probabilistic approach through highlighting the need for uncertainty. It smoothly leads into the next section by introducing Gaussian Process Regression (GPR). However, we would like to point out the full term, and its acronym is used interchangeably, which appears inconsistent.\\
+The methods section first gives a theoretical background to GPR and then describes the application of GPR in \citet{lawati2020short}. While both parts of this section are well written, we argue that it might be helpful for readers to turn them into two distinct sections or subsections. For example: 'Theoretical Background' and 'Using GPR for Solar Power Prediction'.\\
+When introducing GPR, the authors mention linear regression, which is incapable of modeling non-linear input-output relations. To the best of our knowledge, this is untrue, as by using non-linear features, linear regression is, despite its name, suited to model such relationships. We argue that it is the linear relationship between input and features/weights that limits it and where its name stems from.\\
+The evaluation section introduces the results of \citet{lawati2020short}. Here, we notice the lack of citation of the Matérn kernel (i.e. the book by \citet{rasmussen2003gaussian}). Moreover, we would like to point out that the displayed Tables 1\&2 lack citation. To improve visual quality, we recommend using the \texttt{.tex} source code available for download at \url{https://arxiv.org/abs/2010.02275}. Also, using references to tables generated with the \texttt{\\ref} command would be helpful.\\
+The discussion section critiques the covered work by \citet{lawati2020short} in great detail, albeit in somewhat informal language, which is in stark contrast to the rest of the report. A highlight is that the authors offer suggestions for improvement which is of great value.\\
+The final section is a concise conclusion, which briefly revises the report's content and gives an outlook for possible further directions to explore. We note that the authors refer to GPR with is/are interchangeably. We recommend consistent use of these verbs.\\
+Concluding, we find that the report is a very good introduction to GPR for solar power prediction and offers a critical review of a method applying such GPR. Suggested changes are mostly cosmetic in nature.
+
+
+
+%\newpage
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+
+\end{document}
