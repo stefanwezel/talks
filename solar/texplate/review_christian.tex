@@ -1,0 +1,72 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{neurips,times}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{sidecap}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amssymb,amsmath,bm}
+\usepackage{color,soul}
+\usepackage{multirow}
+\usepackage{mathtools}
+
+\newcommand{\figref}[1]{\figurename~\ref{#1}}
+\usepgfplotslibrary{groupplots}
+
+
+\def\figwidth{.5\linewidth}
+\def\figheight{.15\textheight}
+%\newlength{\figwidth}{\mywidth}
+%\newlength{\figheight}{.2\textheight}
+
+
+\usepackage[numbers]{natbib}
+\setlength{\bibsep}{0.0pt}
+
+\title{Review on Report by Christian \vspace{0.5cm}}
+\author{Stefan Wezel \\ stefan.wezel@student.uni-tuebingen.de}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\nipsfinalcopy % for line numbers
+
+\begin{document}
+%\setlength{\figwidth}{.8\textwidth}
+%\setlength{\figheight}{.2\textheight}
+\maketitle
+The authors give an introduction methods aiming to track carbon emissions of individual power plants from satellite imagery. They focus on four different methods specifically which they evaluate and discuss.\\
+The introduction establishes the need for tracking carbon emissions of individual power plants. They introduce a work by \citet{couture2020towards} which investigates methods to solve this task.\\
+The follow-up section covers existing works. It uses a double title, and we recommend choosing one of the two options. This section briefly describes different methods of tracking carbon levels and emissions and their respective applications. They also establish why existing methods are ill-suited to track emissions on a per-plant basis. However, the section leaves out existing remote-sensing approaches developed for related tasks, like \citet{isaev2002using, duren2012measuring, ouyang2017effect}, or \citet{cui2018land}. As the section is rather short, we recommend introducing such works as well, as it would provide context for the method described in the next section.\\
+The methodology section concisely breaks down the task and describes the used dataset and methods. We noticed a misplaced grave accent in line 4 of this section. A positive highlight is the description of the assumptions that the method by \citet{couture2020towards} makes. We suggest referring to the table as such and not as Figure.\\
+The description of the data is rather short and lacks more precise information on the imagery used. For example, it is not clear whether \citet{couture2020towards} rely on visual spectrum imagery only or whether they use further data, like thermal imaging. The satellite products mentioned offer a variety of products that very much might help estimate carbon emissions \cite{gatti2013sentinel, roy2014landsat}.\\
+The first line of Section 3.3 is missing citation brackets. Generally, each of the machine learning methods introduced in the methodology section is only touched upon briefly and could benefit from more detail. For example, it is unclear whether the regions-of-interest (ROI) are extracted manually or automatically. As ROI extraction is not a trivial problem, it would be useful for readers to know which method was used to collect these features. In Section 3.3, it is not stated how Gradient Boosted Trees (GBT) is used in the context of \citet{couture2020towards}. Section 3.4, in contrast, does this nicely.\\
+Section 3.5, besides pretraining and a softmax function, the architecture used is unfortunately not further specified. We recommend describing it in more detail and citing the dataset used for pretraining \cite{cheng2017remote}. Section 3.6 goes into more detail, describing the pipeline and mentioning an attention module.\\
+The evaluation section explains the used metrics nicely and outlines the motivation behind them. The evaluation also discusses the results briefly, which helps to make sense of them.\\
+The discussion section is well written and highlights the complexity of the task. It also reflects critically on the assumption that cooling is a reliable predictor for emissions. However, the authors barely go beyond reciting the discussion points brought up in the original work by \citet{couture2020towards} which is a missed opportunity. Other discussion points, such as a lacking benchmark, not using a more sophisticated vision model, or not exploring predictions beyond on/of status (such as regression on a scalar emission value per plant), are not mentioned and would add value to the discussion.\\
+The conclusion summarized the report's content and the results by \citet{couture2020towards}. The authors conclude that \citet{couture2020towards}'s work is an important first step and highlight the need for higher quality data. We would like to notify the authors that presumably, the final sentence is missing.\\
+Generally, we would like to recommend the authors to give the individual sections more depth and context. This would improve readability. We also ask to consider our suggested feedback, such as discussing \citet{couture2020towards} more critically and suggesting improvements. Positively, we would like to mention the concise language and on-point explanations of complex matters that can be found throughout the report.
+
+
+
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+
+\end{document}
