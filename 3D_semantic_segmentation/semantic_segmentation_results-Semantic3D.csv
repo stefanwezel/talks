@@ -1,0 +1,11 @@
+method,family,Semantic3D mIoU,date
+FG-Net,cnn,78.2,2020
+RFCR,cnn,77.8,2021
+SCF-Net,mlp,77.6,2020
+RandLA-Net,mlp,77.4,2019
+SPG,gnn,76.2,2017
+BAAF-Net,mlp,75.4,2021
+KPConv,cnn,74.6,2019
+SPG,gnn,73.2,2017
+GACNet,gnn,70.8,2019
+ShellNet,cnn,69.3,2019

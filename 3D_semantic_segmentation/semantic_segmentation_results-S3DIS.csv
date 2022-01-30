@@ -1,0 +1,20 @@
+method,family,S3DIS mIoU,date
+BAAF-Net,mlp,72.2,2021
+SCF-Net,mlp,71.6,2020
+FG-Net,cnn,70.8,2020
+RPNet,mlp,70.8,2021
+KPConv,cnn,70.6,2019
+RandLA-Net,mlp,70,2019
+MuGNet,gnn,69.8,2020
+SSP+SPG,gnn,68.4,2019
+FKAConv,cnn,68.4,2020
+ConvPoint,cnn,68.2,2019
+JSENet,cnn,67.7,2020
+ShellNet,cnn,66.8,2019
+PointWeb,mlp,66.7,2019
+MinkowskiNet,cnn,65.4,2019
+SPG,gnn,62.1,2017
+ResGCN-28,gnn,60,2020
+ASIS,mlp,59.3,2019
+Point-PlaneNet,cnn,54.8,2020
+PointNet,mlp,66.2,2016
