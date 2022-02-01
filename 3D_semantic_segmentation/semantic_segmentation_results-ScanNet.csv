@@ -1,0 +1,10 @@
+method,family,miou,date
+MinkowskiNet,cnn,0.736,2019
+IPCA,cnn,0.731,2021
+KPConv,cnn,68.4,2019
+HPEIN,gnn,61.8,2019
+SPH3DGCN,gnn,61,2018
+DPC,cnn,59.2,2020
+PointCNN,cnn,45.8,2018
+PointSIFT,mlp,41.5,2018
+PointNet++,mlp,33.9,2017

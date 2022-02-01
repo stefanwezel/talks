@@ -1,0 +1,10 @@
+method,family,miou,date
+ (AF)2-S3Net,cnn,69.7,2021
+Cylinder3D,cnn,67.8,2020
+SPVNAS,cnn,66.4,2020
+KPConv,cnn,58.8,2019
+STPC,cnn,54.6,2020
+RandLA-Net,mlp,53.9,2019
+PointNet++,mlp,20.1,2017
+SPG,gnn,17.4,2018
+PointNet,mlp,14.6,2017

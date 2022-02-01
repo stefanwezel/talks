@@ -1,4 +1,4 @@
-method,family,S3DIS mIoU,date
+method,family,miou,date
 BAAF-Net,mlp,72.2,2021
 SCF-Net,mlp,71.6,2020
 FG-Net,cnn,70.8,2020

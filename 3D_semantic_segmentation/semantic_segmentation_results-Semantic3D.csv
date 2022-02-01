@@ -1,4 +1,4 @@
-method,family,Semantic3D mIoU,date
+method,family,miou,date
 FG-Net,cnn,78.2,2020
 RFCR,cnn,77.8,2021
 SCF-Net,mlp,77.6,2020
