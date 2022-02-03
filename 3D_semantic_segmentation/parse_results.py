@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.stats import kstest, chisquare, cumfreq, friedmanchisquare
-from numpy.random import poisson, uniform, normal
+from scipy.stats import chisquare
+from numpy.random import uniform
 
 
 
@@ -21,7 +21,6 @@ results = {}
 
 for i,file in enumerate(files):
     dataset = file.split('-')[1].split('.')[0]
-    print(dataset)
     r = pd.read_csv(file)
     r['rank'] = r.index+1
     results[dataset] = r
@@ -44,9 +43,6 @@ for i,file in enumerate(files):
                 '#FFB400',
                 '#083D77',
                 ]
-
-    print([f"{t[0]} ({t[1]})" for t in zip(per_family.index.to_list(), per_family['counts'].to_list())])
-    print(per_family)
     if dataset == 'S3DIS':
         S3DIS_per_family = per_family
 
