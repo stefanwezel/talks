@@ -54,7 +54,7 @@
 
 \begin{abstract}
 	Solar panels are a cost-effective solution for generating energy in a carbon-free manner. However, not every roof is suitable for installing solar panels. Architecture and location heavily affect the viability of such systems.
-	Predicting this solar potential of a roof is traditionally a labor-intensive process requiring on-site measurements. Automating this process and scaling it up is a difficult challenge. Here, we will introduce a solution proposed by \citet{de2021predicting}. We will examine their method and results and propose further enhancements.
+	Predicting this solar potential of a roof is traditionally a labor-intensive process requiring on-site measurements. Automating this process and scaling it up is a difficult challenge. Here, we will introduce a solution proposed by \citet{de2021predicting}. We will review their method, examine reported results, and propose possible enhancements.
 \end{abstract}
 
 \section*{Introduction}
@@ -67,7 +67,7 @@
 %- other ways to address the problem with ml: -> end2end?
 %- core message: incorporating knowledge and ml in a complex system to solve a real world problem
 %TODO explain technical solar potential versus normal solar potential
-In the European Union (EU) alone, rooftops make up an estimated area of \SI{7935}{\kilo\metre\squared}~\cite{bodis2019high}. Much of this area could be used to install solar panels and help feed demand for renewably generated energy. Before installing solar panels, it is useful to estimate how much energy they could produce. This is referred to as a roof's solar potential \footnote{The term technical potential is used interchangeably in this work. It refers to what is 'technically' possible without economical considerations.} and is a crucial task. Locally, to determine the viability and economic efficiency of solar panels. Globally, it could also help yield a guess of how much solar energy could contribute to overall energy production capabilities. An estimate of solar potential on a per-country basis of EU members states is illustrated in \figref{fig:map}. It highlights the solar potential in central and southern Europe.\\
+In the European Union (EU) alone, rooftops make up an estimated area of \SI{7935}{\kilo\metre\squared}~\cite{bodis2019high}. Much of this area could be used to install solar panels and help feed demand for renewably generated energy. Before installing solar panels, it is useful to estimate how much energy they could produce. This is referred to as a roof's solar potential \footnote{The term technical potential is used interchangeably in this work. In this context,both refer to what is 'technically' possible without economical considerations.} and is a crucial task. Locally, to determine the viability and economic efficiency of solar panels. Globally, it could also help yield a guess of how much solar energy could contribute to overall energy production capabilities. An estimate of solar potential on a per-country basis of EU members states is illustrated in \figref{fig:map}. It highlights the high solar potential in central and southern Europe.\\
 Traditionally, a roof's solar potential is estimated by performing measurements of roof geometry, considering its geographic location, and architecture of surrounding buildings or vegetation \cite{freitas2015modelling}. While more recently, geographic information systems (GIS) play an increasingly large role in guiding solar development, much of the process is still labor- and time-consuming. Thus, solar potential estimation on a large scale remains challenging.\\
 Machine learning offers promising capabilities to increase the magnitude at which solar potential estimation can be performed. However, due to limited and complex data, it is not a trivial problem. A solution is proposed by \citet{de2021predicting}. They incorporate structured data and existing knowledge as an inductive bias to a method that combines machine learning, algorithmic, and analytical methods. In this work, we will introduce their approach, discuss it, and propose further enhancements to it.
 \sidecaptionvpos{figure}{t} % c for center, t for top
@@ -75,7 +75,6 @@ Machine learning offers promising capabilities to increase the magnitude at whic
 	\centering
 	\label{fig:map}
 	\caption{Technical solar potential in \si{\giga\watt\hour\per year} across EU member states. The percentages indicate the share of cost-effective solutions among all possible solar installations. This accounts for energy prices and the cost of capital. Most countries in central and southern Europe show high technical solar potential exceeding \SI{25000}{\giga\watt\hour\per year}. A large east-west divide in cost-effectiveness can clearly be observed. France and Germany have high potential and high cost-effectiveness making them primary targets for installing solar panels. The figure is taken from \citet{bodis2019high}.}
-	%TODO ref this figure in introduction and use it as motivation
 	\includegraphics[width=0.7\linewidth]{../figures/technical_potential_eu.jpg}
 \end{SCfigure}
 
@@ -106,7 +105,7 @@ To train the model, \citet{de2021predicting} use labels obtained from GIS data a
 
 
 \subsection*{Estimating Roof Geometry}
-Once they obtain the segmentation maps, where roof space suitable for solar panel installation, is denoted as a specific class, \citet{de2021predicting} predict pitch and azimuth of such areas. This gives information about the geometry of the roof.\\
+Once they obtain the segmentation maps, where roof space suitable for solar panel installation is denoted as a specific class, \citet{de2021predicting} predict pitch and azimuth of such areas. This gives information about the geometry of the roof.\\
 The pitch of a roof segment refers to its slope. This plays a crucial role for solar potential since roofs that are either completely flat or vertical might be less beneficial than moderately sloped ones. \citet{de2021predicting} regress on the normalized pitch. For this, they use a simple linear regression algorithm \cite{gross2003linear}. Additionally,\citet{de2021predicting} use a random forest algorithm \cite{belgiu2016random} to predict roof inclination where features, such as roof type, material, and shape, or the height of the building are known. The training data is obtained again from 3d models of the five French cities.\\
 The azimuth refers to the orientation of the roof from a bird's view perspective. This is obviously important as i.e. on the northern hemisphere south-facing segments might receive more solar radiation than otherwise oriented ones.\\ \citet{de2021predicting} compute the azimuth analytically. For this, they make the simplifying assumption that roof segment orientations can be assigned one of four classes which are the elements of a cyclic \SI{90}{\degree} rotation group, corresponding to north-, east-, south-, or west-facing segments. This allows them to treat it as a classification problem to which the solution can be obtained in closed form.
 
@@ -130,7 +129,7 @@ Finally, \citet{de2021predicting} compute solar potential based on estimated num
 
 
 \begin{table}
-	\caption{Results for the different subtasks as reported by \cite{de2021predicting}}
+	\caption{Results for the different subtasks as reported by \citet{de2021predicting}.}
 	\label{tab:results}
 \begin{tabular}{l|l|l|l}
 	Task                       & Method               & Metric              & Score \\ \hline
